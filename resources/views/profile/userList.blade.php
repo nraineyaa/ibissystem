@@ -8,10 +8,7 @@
             <div class="col-lg-2 col-md-2 col-sm-2">
                 <h4>Manage User</h4>
             </div>
-        </div>
-       
-        <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2"style="float: right;">
+            <div class="col-lg-2 col-md-2 col-sm-2 ml-auto">
                 <a class="btn btn-success" role="button" href="{{ route('employeeRec') }}">
                     <i class="fas fa-plus"></i>&nbsp; Add New Staff
                 </a>
@@ -24,5 +21,6 @@
         @yield('inner_content')
     </div>
 </div>
+
 
 @endsection

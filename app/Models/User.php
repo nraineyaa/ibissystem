@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'id',
         'email',
+        'ic',
         'name',
         'password',
         'confirmPass',
@@ -27,6 +28,8 @@ class User extends Authenticatable
         'phoneNum',
         'remember_token',
         'category',
+        'employmentType',
+        'address',
         'picture',
         'last_login_at',
         'created_at',

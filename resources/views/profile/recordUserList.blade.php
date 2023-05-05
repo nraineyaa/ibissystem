@@ -14,7 +14,7 @@
             ],
             "language": {
                 search: '<i class="fa fa-search" aria-hidden="true"></i>',
-                searchPlaceholder: 'Search activity'
+                searchPlaceholder: 'Search user'
             }
         });
 
@@ -33,7 +33,6 @@
 
 <div class="overflow-auto" style="overflow:auto;">
     <div class="table-responsive">
-
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>

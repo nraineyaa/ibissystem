@@ -23,7 +23,7 @@ class UserController extends Controller
                 'category',
                 'salary',
                 'employmentType'
-                
+
             )
             ->orderBy('name', 'asc')
             ->get();
@@ -37,17 +37,20 @@ class UserController extends Controller
 
     public function employeeRec(Request $request)
     {
-       
-            return view('User.employeeRecord');
 
+        return view('User.employeeRecord');
+    }
+    public function recordUpdateList(Request $request)
+    {
+
+        return view('User.recordUpdateList');
     }
 
-    
+
     public function bankInfo(Request $request)
     {
-       
-            return view('User.bankInfo');
 
+        return view('User.bankInfo');
     }
 
     //store new user into database
@@ -67,10 +70,10 @@ class UserController extends Controller
         $salary = $request->input('salary');
         $address = $request->input('address');
         $bankType = $request->input('bankType');
-        $accName = $request->input('accName');  
+        $accName = $request->input('accName');
         $accNo = $request->input('accNo');
-        
-        
+
+
 
 
         $data = array(
@@ -83,7 +86,7 @@ class UserController extends Controller
             'name' => $name,
             'phoneNum' => $phoneNum,
             'staffID' => $staffID,
-            'category' => $category, 
+            'category' => $category,
             'employmentType' => $employmentType,
             'salary' => $salary,
             'address' => $address,
@@ -103,25 +106,22 @@ class UserController extends Controller
     }
 
     //update user ( HR ONLY )
-    public function updateUser(Request $request, $id)
+    public function updateUserList(Request $request, $id)
     {
-        if ($request->ajax()) {
-            DB::table('users')->where('users.id', '=', $id)
-                ->update([
-                    'users.email' => $request->email,
-                    'users.ic' => $request->ic,
-                    'users.name' => $request->name,
-                    'users.staffID' => $request->staffID,
-                    'users.phoneNum' => $request->phoneNum,
-                    'users.category' => $request->category,
-                    'users.employmentType' => $request->employmentType,
-                    'users.salary' => $request->salary,
-                    'users.address' => $request->address,
-                    'users.picture' => $request->picture,
-                ]);
+        $user = User::find($id)
+            ->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'ic' => $request->ic,
+                'staffID' => $request->staffID,
+                'phoneNum' => $request->phoneNum,
+                'category' => $request->category,
+                'employmentType' => $request->employmentType,
+                'salary' => $request->salary,
+                'address' => $request->address
+            ]);
 
-            return response()->json(array('success' => true));
-        }
+        return redirect()->back()->with('success', 'User info is successfully updated!');
     }
 
     //to delete selected record
@@ -151,8 +151,8 @@ class UserController extends Controller
             'salary',
             'employmentType',
             'address',
-            'bankType' ,
-            'accName' ,
+            'bankType',
+            'accName',
             'accNo',
             'picture',
         )->where('users.id', '=', $request->id)->first();
@@ -160,8 +160,8 @@ class UserController extends Controller
         return view('profile.updateList', compact('register'));
     }
 
-    
-    
+
+
     public function updateAvatar(Request $request)
     {
 
@@ -181,7 +181,7 @@ class UserController extends Controller
             ->with('success', 'You have successfully upload image.');
     }
 
-    
+
     public function updateProfile(Request $request, $id)
     {
         if ($request->ajax()) {
@@ -202,16 +202,14 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        
+
         User::where('id', '=', $user->id)->update([
 
-        'users.password' => Hash::make($request->password),
-        'users.confirmPass' =>Hash::make($request->confirmPass),
-    
+            'users.password' => Hash::make($request->password),
+            'users.confirmPass' => Hash::make($request->confirmPass),
+
         ]);
         return back()
-        ->with('success', 'You have successfully change password.');
-}
-
-
+            ->with('success', 'You have successfully change password.');
+    }
 }
