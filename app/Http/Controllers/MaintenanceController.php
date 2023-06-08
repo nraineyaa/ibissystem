@@ -25,6 +25,6 @@ class MaintenanceController extends Controller
               )
               ->orderBy('name', 'asc')
               ->get();
-          return view('profile.recordUserList', compact('userRecord'));
+          return view('maintenance.recordMainServ', compact('userRecord'));
       }
 }

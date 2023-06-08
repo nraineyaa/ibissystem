@@ -1,4 +1,4 @@
-@extends('invoice.invoice')
+@extends('maintenance.maintenance')
 
 <script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
 <script src="{{ asset('frontend') }}/js/dataTables.bootstrap4.js"></script>
@@ -14,12 +14,12 @@
             ],
             "language": {
                 search: '<i class="fa fa-search" aria-hidden="true"></i>',
-                searchPlaceholder: 'Search Invoice'
+                searchPlaceholder: 'Search Job'
             }
         });
 
         $('.dataTables_filter input[type="search"]').css({
-            'width': '300px',
+            'width': '200px',
             'display': 'inline-block',
             'font-size': '15px',
             'font-weight': '400'
@@ -36,11 +36,11 @@
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th style="width:40px">#</th>
-                    <th>Date</th>
-                    <th>Client Name</th>
-                    <th>Status</th>
-                    <th style="width:30px">Total</th>
+                    <th>Name</th>
+                    <th>Staff ID</th>
+                    <th>Email</th>
+                    <th>Category</th>
+                    <th style="width:30px">Phone Number</th>
                     <th style="width:30px">Action</th>
                 </tr>
             </thead>
@@ -49,16 +49,15 @@
 
                 <tr id="row{{$data->id}}">
 
-                    <td>{{ $data->id }}</td>
+                    <td>{{ $data->name }}</td>
                     <td>{{ $data->staffID }}</td>
                     <td>{{ $data->email }}</td>
                     <td>{{ $data->category }}</td>
                     <td>{{ $data->phoneNum }}</td>
                     <td>
                         <div class="btn-group" style="float: right;">
-                            <span class="btn btn-default material-symbols-outlined">
-                                chevron_right
-                            </span>
+                            <a href="{{route('editUser',$data->id)}}" class="btn btn-primary">Edit</a>
+                            <button class="btn btn-danger" type="button" onclick="deleteItem(this)" data-id="{{ $data->id }}" data-name="{{ $data->name }}">Delete</button>
                         </div>
                     </td>
                 </tr>

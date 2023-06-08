@@ -41,13 +41,13 @@
                     <td>{{ $data->claimType }}</td>
                     <td>{{ $data->svName }}</td>
                     <td>{{ $data->amount }}</td>
-                    <td>
+                    <td style="width: 100px;">
                         @if($data->status == "Pending")
-                        <span class="badge badge-pill badge-danger">Pending</span>
+                        <span class="badge badge-pill badge-danger" style="width: 100px;">Pending</span>
                         @elseif($data->status == "Reviewed")
-                        <span class="badge badge-pill badge-warning">In-Review</span>
+                        <span class="badge badge-pill badge-warning" style="width: 100px;">In-Review</span>
                         @else
-                        <span class="badge badge-pill badge-success">Paid</span>
+                        <span class="badge badge-pill badge-success" style="width: 100px;">Paid</span>
                         @endif
                     </td>
                     <td>

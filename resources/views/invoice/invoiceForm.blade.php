@@ -1,126 +1,117 @@
 @extends('layouts.sideNav')
 @section('content')
+<style>
+    .header-content {
+        display: flex;
+        align-items: flex-start;
+    }
 
+    .address-text {
+        width: 200px;
+        margin-left: 10px;
+        /* Adjust the margin as needed to create desired spacing */
+    }
+
+    .address-text p {
+        margin: 0;
+    }
+
+    .invoice-text {
+        float: right;
+    }
+</style>
 <div class="card mb-3">
-    <div class="card-header pb-0">
-        <h2>#INVOICE</h2>
+    <br>
+    <div class="card-header pb-2">
+        <div class="invoice-text">
+            <h2>#INVOICE</h2>
+        </div>
+        <div class="header-content">
+            <img id="main-logo" class="d-inline-block align-center mr-1" style="max-width: 100px;" src="{{ asset('frontend') }}/images/logoibis.png" alt="petakom logo">
+            <div class="address-text">
+                <p>B-2-1 Ampang Tudor Court,</p>
+                <p>Taman Rasmi Jaya,</p>
+                <p>Jalan Dedap,</p>
+                <p>6800 Ampang, Selangor.</p>
+            </div>
+        </div>
     </div>
+
     <div class="card-body">
         <div class="row">
             <div class="col">
-                <form action="{{ route('addUser') }} " enctype="multipart/form-data" method="POST" id="formNew" onsubmit="upload()">
+                <form action="" enctype="multipart/form-data" method="POST" id="formNew" onsubmit="upload()">
                     @csrf
                     <input type="text" class="form-control" value="addtech" id="addTech" name="addTech" hidden>
-
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="email">Email </label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Email" required>
+                            <label for="clientAdd">Bill To</label>
+                            <textarea style="height: 100px;" class="form-control" id="clientAdd" name="clientAdd" required></textarea>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="email">Identification No </label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="00XXXXXXXXXX" required>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="password">{{ __('Password') }}</label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Password">
-                            @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="confirmPass">{{ __('Confirm Password') }}</label>
-                            <input id="confirmPass" type="password" class="form-control" required autocomplete="new-password" placeholder="Confirm Password">
-                            @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="name">Fullname</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="phoneNum">Phone Number</label>
-                            <input type="text" class="form-control" id="phoneNum" name="phoneNum" placeholder="Phone Number" required>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="phoneNum">Employee ID</label>
-                            <input type="text" class="form-control" id="staffID" name="staffID" placeholder="Staff ID" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="position">User Type</label>
-                            <select class="form-control" name="category" id="category">
-                                <option value="Accountant">-</option>
-                                <option value="Accountant">Accountant</option>
-                                <option value="Worker">Worker</option>
-                                <option value="Supervisor">Supervisor</option>
-                                <option value="HR">HR</option>
-                            </select>
+                        <div class="form-group col-md-6" hidden>
+                            <label for="clientName"></label>
+                            <input type="text" class="form-control" id="clientName" name="clientName" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="position">Employment Type</label>
-                            <select class="form-control" name="employmentType" id="employmentType">
-                                <option value="Accountant">-</option>
-                                <option value="Contract">Contract</option>
-                                <option value="Permanent">Permanent</option>
+                            <label for="date">Issued Date</label>
+                            <input type="date" class="form-control" id="issueDate" name="issueDate" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="date">Due Date</label>
+                            <input type="date" class="form-control" id="dueDate" name="dueDate" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="clientAdd">Description</label>
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th style="width:40px">Bil</th>
+                                        <th>Item</th>
+                                        <th style="width:80px">Quantity</th>
+                                        <th style="width:200px">Price</th>
+                                        <th style="width:200px">Amount</th>
+                                        <th style="width:30px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="">
+                                        <td><input type="text" class="form-control" id="id" name="id" required></td>
+                                        <td><input type="text" class="form-control" id="item" name="item" required></td>
+                                        <td><input type="text" class="form-control" id="quantity" name="quantity" required></td>
+                                        <td><input type="text" class="form-control" id="price" name="price" required></td>
+                                        <td><input type="text" class="form-control" id="amount" name="amount" required></td>
+                                        <td>
+                                            <div class="btn-group" style="float: right;">
+                                                <a href="" class="btn btn-primary">Add</a>&nbsp;
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="clientAdd">Payment</label>
+                            <select class="form-control" name="payment" id="payment">
+                                <option value="select">Please Select</option>
+                                <option value="FPX">FPX</option>
+                                <option value="Cash">Cash</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="Salary">Salary</label>
-                            <input type="text" class="form-control" id="salary" name="salary" placeholder="0-10,000" required>
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" name="address" placeholder="Address" required>
-                        </div>
-                    </div>
-
-                    <hr>
-                    <h5><b>Bank Details</b></h5>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="bankType">Bank Name </label>
-                            <input type="text" class="form-control" id="bankType" name="bankType" placeholder="Bank Name" required>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="accName">Account Name</label>
-                            <input type="text" class="form-control" id="accName" name="accName" placeholder="ACC Name" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="accNo">Account Number</label>
-                            <input type="text" class="form-control" id="accNo" name="accNo" placeholder="031XXXXXX" required>
+                            <label for="clientName">Remark</label>
+                            <input type="text" class="form-control" id="remark" name="remark" required>
                         </div>
                     </div>
                     <div style="float: right;">
                         <a href="{{ url()->previous() }}" class="btn btn-danger btn-md">Cancel</a>
-                        <button type="submit" id="formNew" class="btn btn-primary">Register</button>
+                        <button type="submit" id="formNew" class="btn btn-primary">Submit</button>
                     </div>
-
                 </form>
             </div>
         </div>

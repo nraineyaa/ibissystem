@@ -10,30 +10,30 @@
     <div class="col-12 col-xl-12 stretch-card">
         <div class="row flex-grow">
             <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
+                <div class="card" style="background:#38BDEF;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <i class="material-icons" style="font-size:60px;color:lightblue;">hourglass_top</i>
+                                <i class="material-icons" style="font-size:60px;color:antiquewhite;">hourglass_top</i>
                             </div>
                             <div class="form-group col-md-6">
-                                <h5>In-Review</h5>
-                                <h4>{{$reviewedCount}}</h4>
+                                <h5 style="color:antiquewhite; font-weight: bold;">In-Review</h5>
+                                <h4 style="color:antiquewhite; font-weight: bold;">{{$reviewedCount}}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
+                <div class="card" style="background:#FF6262;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <i class="material-icons" style="font-size:60px;color:red;">update</i>
+                                <i class="material-icons" style="font-size:60px;color:antiquewhite;">update</i>
                             </div>
                             <div class="form-group col-md-6">
-                                <h5>Pending</h5>
-                                <h4>{{$pendingCount}}</h4>
+                                <h5 style="color:antiquewhite; font-weight: bold;">Pending</h5>
+                                <h4 style="color:antiquewhite; font-weight: bold;">{{$pendingCount}}</h4>
                             </div>
                         </div>
                     </div>
@@ -43,49 +43,51 @@
     </div>
 </div>
 @else
+
+
 <div class="row mb-4">
     <div class="col-12 col-xl-12 stretch-card">
         <div class="row flex-grow">
             <div class="col-md-4 grid-margin stretch-card">
-                <div class="card">
+                <div class="card" style="background:#0F8914;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <i class="material-icons" style="font-size:60px;color:green;">event_available</i>
+                                <i class="material-icons" style="font-size:60px;color:antiquewhite;">event_available</i>
                             </div>
                             <div class="form-group col-md-6">
-                                <h5>Successful</h5>
-                                <h4>{{$successfulCount}}</h4>
+                                <h5 style="color:antiquewhite; font-weight: bold;">Successful</h5>
+                                <h4 style="color:antiquewhite; font-weight: bold;">{{$successfulCount}}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 grid-margin stretch-card">
-                <div class="card">
+                <div class="card" style="background:#D3B700;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <i class="material-icons" style="font-size:60px;color:lightblue;">hourglass_top</i>
+                                <i class="material-icons" style="font-size:60px;color:antiquewhite;">hourglass_top</i>
                             </div>
                             <div class="form-group col-md-6">
-                                <h5>In-Review</h5>
-                                <h4>{{$reviewedCount}}</h4>
+                                <h5 style="color:antiquewhite; font-weight: bold;">In-Review</h5>
+                                <h4 style="color:antiquewhite; font-weight: bold;">{{$reviewedCount}}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 grid-margin stretch-card">
-                <div class="card">
+                <div class="card" style="background:#FF6262;" >
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <i class="material-icons" style="font-size:60px;color:red;">update</i>
+                                <i class="material-icons" style="font-size:60px;color:antiquewhite;">update</i>
                             </div>
                             <div class="form-group col-md-6">
-                                <h5>Pending</h5>
-                                <h4>{{$pendingCount}}</h4>
+                                <h5 style="color:antiquewhite; font-weight: bold;">Pending</h5>
+                                <h4 style="color:antiquewhite; font-weight: bold;">{{$pendingCount}}</h4>
                             </div>
                         </div>
                     </div>
