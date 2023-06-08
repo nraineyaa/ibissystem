@@ -46,12 +46,18 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('viewActvProposal*') ? 'active' : '' }}" href="{{ route('viewActvProposal') }}">
-                            <i class="material-icons">checklist</i>
-                            <span>View Activity</span>
+                        <a class="nav-link {{ request()->routeIs('claim.page*') ? 'active' : '' }}" href="{{ route('claim.page') }}">
+                            <i class="material-icons">payments</i>
+                            <span>Claim</span>
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('invoice.page*') ? 'active' : '' }}" href="{{ route('invoice.page') }}">
+                            <i class="material-icons">receipt_long</i>
+                            <span>Invoice</span>
+                        </a>
+                    </li>
                     
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('userList.page*') ? 'active' : '' }}" href="{{ route('userList.page') }}">
@@ -61,7 +67,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('userList.page*') ? 'active' : '' }}" href="{{ route('userList.page') }}">
+                        <a class="nav-link {{ request()->routeIs('maintenance.page*') ? 'active' : '' }}" href="{{ route('maintenance.page') }}">
                             <i class="material-icons">settings</i>
                             <span>Maintenance and Services</span>
                         </a>

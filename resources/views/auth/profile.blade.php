@@ -28,7 +28,8 @@
 
     <div class="col-md-8">
         <div class="card" style="padding: 20px;">
-            <form method="get" action="{{ url('/editProfile' . '/' . $user->id) }}">
+            <form method="post" action="{{ url('/editProfile' . '/' . $user->id) }}">
+                @csrf
                 <div class="form-row">
                     <div class="col-lg col-md-6 col-sm-6 mb-4">
                         <label for="name">Name</label>
@@ -50,6 +51,17 @@
                         <input type="text" class="form-control" id="phoneNum" name="phoneNum" value="{{ $user->phoneNum }}" required>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="col-lg col-md-6 col-sm-6 mb-4">
+                        <label for="staffID">Bank Account No</label>
+                        <input type="text" class="form-control" id="accNo" name="accNo" value="{{ $user->accNo }}" required>
+                    </div>
+                    <div class="col-lg col-md-6 col-sm-6 mb-4">
+                        <label for="phoneNum">Bank Type</label>
+                        <input type="text" class="form-control" id="bankType" name="bankType" value="{{ $user->bankType }}" required>
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <label for="inputAddress">Address</label>

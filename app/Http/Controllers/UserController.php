@@ -22,7 +22,9 @@ class UserController extends Controller
                 'phoneNum',
                 'category',
                 'salary',
-                'employmentType'
+                'employmentType',
+                'bankType',
+                'accNo',
 
             )
             ->orderBy('name', 'asc')
@@ -118,7 +120,7 @@ class UserController extends Controller
                 'category' => $request->category,
                 'employmentType' => $request->employmentType,
                 'salary' => $request->salary,
-                'address' => $request->address
+                'address' => $request->address,
             ]);
 
         return redirect()->back()->with('success', 'User info is successfully updated!');
@@ -185,17 +187,20 @@ class UserController extends Controller
     public function updateProfile(Request $request, $id)
     {
         if ($request->ajax()) {
-            DB::table('users')->where('users.id', '=', $id)
+            DB::table('users')->where('id', $id)
                 ->update([
-                    'users.name' => $request->name,
-                    'users.staffID' => $request->staffID,
-                    'users.phoneNum' => $request->phoneNum,
-                    'users.address' => $request->address,
+                    'name' => $request->name,
+                    'staffID' => $request->staffID,
+                    'phoneNum' => $request->phoneNum,
+                    'address' => $request->address,
+                    'bankType' => $request->bankType,
+                    'accNo' => $request->accNo,
                 ]);
-
+    
             return response()->json(array('success' => true));
         }
     }
+    
 
     public function updatePassword(Request $request)
     {
@@ -212,4 +217,6 @@ class UserController extends Controller
         return back()
             ->with('success', 'You have successfully change password.');
     }
+
+    
 }

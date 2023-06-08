@@ -37,7 +37,7 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'load
 
 //====================================================== REGISTER CONTROLLER ======================================================
 Route::get('/profile/{id}', [App\Http\Controllers\profileController::class, 'edit'])->name('profile'); //send id to edit
-Route::get('/editProfile/{id}', [App\Http\Controllers\profileController::class, 'update']); //edit profile 
+Route::post('/editProfile/{id}', [App\Http\Controllers\profileController::class, 'update']); //edit profile 
 Route::get('/updateUserList/{id}', [App\Http\Controllers\UserController::class, 'updateUserList']); //edit profile 
 
 
@@ -64,7 +64,7 @@ Route::get('/upload-file', [App\Http\Controllers\FileUpload::class, 'createForm'
 Route::post('/upload-file', [App\Http\Controllers\FileUpload::class, 'fileUpload'])->name('fileUpload');
 
 
-//====================================================== BB CONTROLLER ======================================================
+//====================================================== User CONTROLLER ======================================================
 
 
 Route::controller(App\Http\Controllers\UserController::class)->group(function () {
@@ -77,4 +77,27 @@ Route::controller(App\Http\Controllers\UserController::class)->group(function ()
     Route::post('/updateProfile/{id}', 'updateProfile')->name('updateProfile');
     Route::post('/updatePassword', 'updatePassword')->name('updatePassword');
     Route::get('/employeeRec', 'employeeRec')->name('employeeRec');
+});
+
+//====================================================== Maintenance & Services CONTROLLER ======================================================
+
+Route::controller(App\Http\Controllers\MaintenanceController::class)->group(function () {
+    Route::get('/maintenance', 'index')->name('maintenance.page');
+});
+
+
+//====================================================== Finance CONTROLLER ======================================================
+
+Route::controller(App\Http\Controllers\FinanceController::class)->group(function () {
+    Route::get('/claim', 'index')->name('claim.page');
+    Route::post('/addClaim', 'addClaim')->name('addClaim');
+    Route::get('/editClaim/{id}', 'editClaim')->name('editClaim');
+    Route::get('/updateClaim/{id}', 'updateClaim')->name('updateClaim');
+});
+
+//====================================================== Invoice CONTROLLER ======================================================
+
+Route::controller(App\Http\Controllers\InvoiceController::class)->group(function () {
+    Route::get('/invoice', 'index')->name('invoice.page');
+    Route::get('/invoiceForm', 'invoiceForm')->name('invoiceForm');
 });

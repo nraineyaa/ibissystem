@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class profileController extends Controller
 {
@@ -77,14 +78,20 @@ class profileController extends Controller
     //update function
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
 
-        $user = User::find($id)
-            ->update([
-                'name' => $request->name,
-                'email' => $request->email
-            ]);
+        User::where('id', '=', $user->id)->update([
 
-        return redirect()->back()->with('success', 'Your profile is successfully updated!');
+            'users.name' => $request->name,
+            'users.email' => $request->email,
+            'users.staffID' => $request->staffID,
+            'users.phoneNum' => $request->phoneNum,
+            'users.bankType' => $request->bankType,
+            'users.accNo' => $request->accNo,
+
+        ]);
+
+        return back()->with('success', 'Your profile is successfully updated!');
     }
 
     /**

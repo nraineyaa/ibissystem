@@ -23,21 +23,15 @@ class DashboardController extends Controller
         if ($category == 'Supervisor') {
             return view('dashboard.Supervisor');
         }
-        if ($category == 'Lecturer') {
-            return view('dashboard.Lecturer');
+        if ($category == 'Accountant') {
+            return view('dashboard.Accountant');
         }
         if ($category == 'Human Resource') {
             //dd(Auth::user()->id);
             return view('dashboard.HumanResource');
         }
-        if ($category == 'Coordinator') {
-            return view('dashboard.Coordinator');
-        }
-        if ($category == 'Hosd') {
-            return view('dashboard.Hosd');
-        }
-        if ($category == 'Dean') {
-            return view('dashboard.Dean');
+        if ($category == 'Worker') {
+            return view('dashboard.Worker');
         }
     }
 }

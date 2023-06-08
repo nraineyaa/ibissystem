@@ -31,6 +31,8 @@ class User extends Authenticatable
         'employmentType',
         'address',
         'picture',
+        'bankType',
+        'accNo',
         'last_login_at',
         'created_at',
         'updated_at',
