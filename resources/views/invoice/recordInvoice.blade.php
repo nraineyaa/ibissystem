@@ -37,23 +37,23 @@
             <thead>
                 <tr>
                     <th style="width:40px">#</th>
-                    <th>Date</th>
-                    <th>Client Name</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Address</th>
                     <th>Status</th>
-                    <th style="width:30px">Total</th>
+                    <th style="width:30px">Remark</th>
                     <th style="width:30px">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($userRecord as $data)
+                @foreach($invoiceList as $data)
 
                 <tr id="row{{$data->id}}">
-
-                    <td>{{ $data->id }}</td>
-                    <td>{{ $data->staffID }}</td>
-                    <td>{{ $data->email }}</td>
-                    <td>{{ $data->category }}</td>
-                    <td>{{ $data->phoneNum }}</td>
+                    <td>{{ $data->issueDate }}</td>
+                    <td>{{ $data->dueDate }}</td>
+                    <td>{{ $data->address }}</td>
+                    <td>{{ $data->remark }}</td>
+                    <td style="width: 100px;"> <span class="badge badge-pill badge-danger" style="width: 100px;">Unpaid</span></td>
                     <td>
                         <div class="btn-group" style="float: right;">
                             <span class="btn btn-default material-symbols-outlined">

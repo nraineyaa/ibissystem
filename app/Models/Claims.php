@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class Claims extends Model
 {
     use HasFactory;
+    protected $table = 'claims'; //table to store activity data
 
+    //attributes in the table
     protected $fillable = [
         'id',
-        'issueDate',
-        'total',
-        'dueDate',
-        'address',
-        'payment',
+        'date',
+        'claimType',
+        'svName',
+        'amount',
+        'status	',
         'remark',
         'userID',
     ];

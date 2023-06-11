@@ -3,33 +3,122 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\User;
+use App\Models\Item;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
     //display new user 
     public function index()
     { //
-        $userRecord = DB::table('users')
-            ->select(
-                'id',
-                'name',
-                'staffID',
-                'email',
-                'phoneNum',
-                'category',
-                'salary',
-                'employmentType'
+        $invoiceList = DB::table('invoice')
+        ->select(
+            
+            'id',
+            'issueDate',
+            'dueDate',
+            'address',
+            'remark',
+            'userID',
 
-            )
-            ->orderBy('name', 'asc')
-            ->get();
-        return view('invoice.recordInvoice', compact('userRecord'));
+        )
+        ->orderBy('issueDate', 'asc')
+        ->get();
+        return view('invoice.invoice', compact('invoiceList'));
     }
 
     public function invoiceForm(Request $request)
     {
 
-        return view('invoice.invoiceForm');
+        $itemList = DB::table('item')
+            ->select(
+                'id',
+                'bil',
+                'itemName',
+                'quantity',
+                'price',
+                'amount',
+                'userID',
+
+            )
+            ->orderBy('bil', 'asc')
+            ->get();
+        return view('invoice.invoiceForm', compact('itemList'));
+    }
+
+    public function addItem(Request $request)
+    {
+
+        $currUser = Auth::user()->id;
+
+        $bil = $request->input('bil');
+        $itemName = $request->input('itemName');
+        $quantity = $request->input('quantity');
+        $price = $request->input('price');
+        $amount = $request->input('amount');
+        $userID = $currUser;
+
+        $data = array(
+
+
+            'bil' => $bil,
+            'itemName' => $itemName,
+            'quantity' => $quantity,
+            'price' => $price,
+            'amount' => $amount,
+            'userID' => $userID,
+
+        );
+
+
+        DB::table('item')->insert($data);
+
+        return back()->with('success', 'Item successfully added');
+    }
+
+    public function deleteItem(Request $request, $id)
+    {
+        if ($request->ajax()) {
+
+            Item::where('id', '=', $id)->delete();
+            return response()->json(array('success' => true));
+        }
+    }
+
+    
+    public function addInvoice(Request $request)
+    {
+
+        $currUser = Auth::user()->id;
+
+        $issueDate = $request->input('issueDate');
+        $dueDate = $request->input('dueDate');
+        $address = $request->input('address');
+        $payment = $request->input('payment');
+        $remark = $request->input('remark');
+        $userID = $currUser;
+
+        $data = array(
+
+
+            'issueDate' => $issueDate,
+            'dueDate' => $dueDate,
+            'address' => $address,
+            'payment' => $payment,
+            'remark' => $remark,
+            'userID' => $userID,
+
+        );
+
+
+        DB::table('invoice')->insert($data);
+
+        return back()->with('success', 'Invoice successfully added');
+    }
+    
+    public function addItemForm(Request $request)
+    {
+
+        return view('invoice.addItemForm');
     }
 }

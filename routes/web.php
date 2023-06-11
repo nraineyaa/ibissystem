@@ -83,6 +83,10 @@ Route::controller(App\Http\Controllers\UserController::class)->group(function ()
 
 Route::controller(App\Http\Controllers\MaintenanceController::class)->group(function () {
     Route::get('/maintenance', 'index')->name('maintenance.page');
+    Route::get('/reportForm', 'reportForm')->name('reportForm');
+    Route::get('/jobForm', 'jobForm')->name('jobForm');
+    Route::post('/addJob', 'addJob')->name('addJob');
+    Route::post('/addReport', 'addReport')->name('addReport');
 });
 
 
@@ -93,6 +97,7 @@ Route::controller(App\Http\Controllers\FinanceController::class)->group(function
     Route::post('/addClaim', 'addClaim')->name('addClaim');
     Route::get('/editClaim/{id}', 'editClaim')->name('editClaim');
     Route::get('/updateClaim/{id}', 'updateClaim')->name('updateClaim');
+    Route::get('chart', 'chart')->name('chart');;
 });
 
 //====================================================== Invoice CONTROLLER ======================================================
@@ -100,4 +105,16 @@ Route::controller(App\Http\Controllers\FinanceController::class)->group(function
 Route::controller(App\Http\Controllers\InvoiceController::class)->group(function () {
     Route::get('/invoice', 'index')->name('invoice.page');
     Route::get('/invoiceForm', 'invoiceForm')->name('invoiceForm');
+    Route::delete('/deleteItem/{id}', 'deleteItem')->name('deleteItem');
+    Route::post('/addItem', 'addItem')->name('addItem');
+    Route::post('/addInvoice', 'addInvoice')->name('addInvoice');
+    Route::get('/addItemForm', 'addItemForm')->name('addItemForm');
+});
+
+//====================================================== Attendance CONTROLLER ======================================================
+
+Route::controller(App\Http\Controllers\AttendanceController::class)->group(function () {
+    Route::get('/attendance', 'attendance')->name('attendance.page');
+    Route::post('/checkIn','checkIn')->name('checkIn');
+    Route::get('/checkOut/{id}','checkOut')->name('checkOut');
 });

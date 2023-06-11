@@ -18,8 +18,8 @@
                             <input type="text" class="form-control" id="email" name="email" placeholder="Email" required>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="email">Identification No </label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="00XXXXXXXXXX" required>
+                            <label for="ic">Identification No </label>
+                            <input type="text" class="form-control" id="ic" name="ic" placeholder="00XXXXXXXXXX" required>
                         </div>
                     </div>
 

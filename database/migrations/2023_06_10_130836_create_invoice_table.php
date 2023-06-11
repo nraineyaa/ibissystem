@@ -13,21 +13,14 @@ class CreateInvoiceTable extends Migration
      */
     public function up()
     {
-
         Schema::create('invoice', function (Blueprint $table) {
-
-            $table->id();
-            $table->string('clientName');
-            $table->string('clientAdd');
-            $table->date('date');
-            $table->decimal('total', 8, 2);
-            $table->decimal('grandTotal', 8, 2);
-            $table->decimal('price', 8, 2);
-            $table->string('quantity');
+            $table->id(); 
+            $table->date('issueDate');
+            $table->date('dueDate');
+            $table->string('address');
+            $table->string('payment');
             $table->string('remark');
-            $table->string('status');
             $table->unsignedBigInteger('userID');
-            $table->foreign('userID')->references('id')->on('users');
             $table->timestamps();
         });
     }

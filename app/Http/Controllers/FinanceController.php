@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Claim;
+use App\Models\Claims;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
@@ -132,7 +132,7 @@ class FinanceController extends Controller
 
     public function updateClaim(Request $request, $id)
     {
-        Claim::where('id', '=', $request->id)
+        Claims::where('id', '=', $request->id)
             ->update([
 
                 'claims.claimType' => $request->claimType,
@@ -145,7 +145,6 @@ class FinanceController extends Controller
 
         return back()->with('success', 'Claim info is successfully updated!');
     }
-
     // public function update(Request $request, $id)
     // {
     //     $claim = Claim::find($id);

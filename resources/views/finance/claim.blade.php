@@ -10,7 +10,7 @@
     <div class="col-12 col-xl-12 stretch-card">
         <div class="row flex-grow">
             <div class="col-md-6 grid-margin stretch-card">
-                <div class="card" style="background:#38BDEF;">
+                <div class="card" style="background:#F6EC73;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
@@ -64,15 +64,15 @@
                 </div>
             </div>
             <div class="col-md-4 grid-margin stretch-card">
-                <div class="card" style="background:#D3B700;">
+                <div class="card" style="background:#FFF57F;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <i class="material-icons" style="font-size:60px;color:antiquewhite;">hourglass_top</i>
+                                <i class="material-icons" style="font-size:60px;">hourglass_top</i>
                             </div>
                             <div class="form-group col-md-6">
-                                <h5 style="color:antiquewhite; font-weight: bold;">In-Review</h5>
-                                <h4 style="color:antiquewhite; font-weight: bold;">{{$reviewedCount}}</h4>
+                                <h5 style="font-weight: bold;">In-Review</h5>
+                                <h4 style=" font-weight: bold;">{{$reviewedCount}}</h4>
                             </div>
                         </div>
                     </div>

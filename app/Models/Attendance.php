@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class Attendance extends Model
 {
     use HasFactory;
-
+    protected $table = 'attendance';
+    
     protected $fillable = [
         'id',
-        'issueDate',
-        'total',
-        'dueDate',
-        'address',
-        'payment',
-        'remark',
+        'date',
+        'checkIn',
+        'checkOut',
+        'status',
         'userID',
     ];
 }

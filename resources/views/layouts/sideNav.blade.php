@@ -37,13 +37,13 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('activity*') ? 'active' : '' }}" href="{{ route('activity') }}">
-                            <i class="material-icons">checklist</i>
-                            <span>Activity</span>
+                        <a class="nav-link {{ request()->routeIs('attendance.page*') ? 'active' : '' }}" href="{{ route('attendance.page') }}">
+                            <i class="material-icons">calendar_month</i>
+                            <span>Attendance</span>
                         </a>
                     </li>
+
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('claim.page*') ? 'active' : '' }}" href="{{ route('claim.page') }}">

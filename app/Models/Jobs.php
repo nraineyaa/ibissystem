@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class Jobs extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'id',
-        'issueDate',
-        'total',
-        'dueDate',
-        'address',
-        'payment',
-        'remark',
+        'jobTitle',
+        'date',
+        'location',
+        'jobDesc',
         'userID',
+        'workersName',
     ];
 }

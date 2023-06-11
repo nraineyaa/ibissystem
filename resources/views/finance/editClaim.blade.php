@@ -163,10 +163,12 @@
                             <select class="form-control" name="status" id="status">
                                 @if($claim->status == null)
                                 <option value="" selected disabled>--Please Select--</option>
-                                <option value="Reviewed">Successful</option>
-                                @else
+                                <option value="Successful">Successful</option>
+                                @elseif($claim->status == "Reviewed")
                                 <option value="Reviewed" selected>Reviewed</option>
-                                <option value="Pending">Successful</option>
+                                <option value="Successful">Successful</option>
+                                @else
+                                <option value="Successful" selected disabled>Successful</option>
                                 @endif
                             </select>
                         </div>
@@ -189,7 +191,10 @@
                     </div>
                     <div style="float: right;">
                         <a href="{{ route('claim.page', $claim->claimID ) }}" class="btn btn-secondary">Back</a>
+                        @if($claim->status != "Successful")
                         <button type="submit" class="btn btn-primary btn-md"><span class="nav-link-text">Submit</span></button>
+                        @else
+                        @endif
                     </div>
                 </form>
                 @endif
