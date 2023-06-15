@@ -15,23 +15,44 @@ class FinanceController extends Controller
     {
 
         $currID = Auth::user()->id;
+
         $currUser = Auth::user()->category;
-        
+
         $supervisor = User::where('category', '=', "Supervisor")->pluck('name')->all();
-        
+
         $pendingCount = DB::table('claims')
-            ->where('status', '=', 'Pending')
+            ->where('claims.status', '=', "Pending")
+            ->where('claims.userID', '=', $currID)
             ->count();
-        
+
+
         $reviewedCount = DB::table('claims')
-            ->where('status', '=', 'Reviewed')
+            ->where('status', '=', "Reviewed")
+            ->where('claims.userID', '=', $currID)
             ->count();
-        
+
         $successfulCount = DB::table('claims')
-            ->where('status', '=', 'Successful')
+            ->where('status', '=', "Successful")
+            ->where('claims.userID', '=', $currID)
             ->count();
-        
-        if ($currUser == 'Supervisor' || $currUser == 'Human Resource') {
+
+        if ($currUser == 'Human Resource') {
+            $userRecord = DB::table('claims')
+
+                ->where('claims.userID', '=', $currID)
+                ->select(
+                    'id',
+                    'claimType',
+                    'date',
+                    'amount',
+                    'svName',
+                    'status',
+                    'remark',
+                    'userID',
+                )
+                ->orderBy('claimType', 'asc')
+                ->get();
+        } elseif ($currUser == 'Supervisor') {
             $userRecord = DB::table('claims')
                 ->select(
                     'id',
@@ -48,6 +69,7 @@ class FinanceController extends Controller
                 ->get();
         } else {
             $userRecord = DB::table('claims')
+                ->where('claims.userID', '=', $currID)
                 ->select(
                     'id',
                     'claimType',
@@ -61,7 +83,6 @@ class FinanceController extends Controller
                 ->orderBy('claimType', 'asc')
                 ->get();
         }
-        
 
 
         return view('finance.recordClaim', compact('userRecord', 'supervisor', 'pendingCount', 'reviewedCount', 'successfulCount'));
@@ -144,6 +165,12 @@ class FinanceController extends Controller
             ]);
 
         return back()->with('success', 'Claim info is successfully updated!');
+    }
+
+    public function myClaim(Request $request)
+    {
+
+        return view('finance.myClaim');
     }
     // public function update(Request $request, $id)
     // {

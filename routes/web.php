@@ -63,6 +63,10 @@ Route::controller(App\Http\Controllers\MaintenanceController::class)->group(func
     Route::get('/jobForm', 'jobForm')->name('jobForm');
     Route::post('/addJob', 'addJob')->name('addJob');
     Route::post('/addReport', 'addReport')->name('addReport');
+    Route::get('/jobInfo/{id}', 'jobInfo')->name('jobInfo');
+    Route::get('/updateInfo/{id}', 'updateInfo')->name('updateInfo');
+    Route::get('/editJob/{id}', 'editJob')->name('editJob');
+    Route::get('/updateJob/{id}', 'updateJob')->name('updateJob');
 });
 
 

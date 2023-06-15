@@ -10,7 +10,7 @@
     <div class="col-12 col-xl-12 stretch-card">
         <div class="row flex-grow">
             <div class="col-md-6 grid-margin stretch-card">
-                <div class="card" style="background:#F6EC73;">
+                <div class="card" style="background:#156DA2;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="col-md-4 grid-margin stretch-card">
-                <div class="card" style="background:#FF6262;" >
+                <div class="card" style="background:#FF6262;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
@@ -99,6 +99,8 @@
 @endif
 
 <div class="card">
+
+
     <div class="card-header pb-0">
         <div class="row">
             <div class="col-lg-2 col-md-4 col-sm-2">
@@ -138,7 +140,7 @@
                                 <div class="form-group col-md-6">
                                     <label for="claimType"> Claim Type </label>
                                     <select class="form-control" name="claimType" id="claimType" required>
-                                        <option value="claim" selected disabled>Please Select</option>
+                                        <option value="" selected disabled>Please Select</option>
                                         <option value="Fuel">Fuel</option>
                                         <option value="Overtime">Overtime</option>
                                         <option value="Medical">Medical</option>
@@ -153,7 +155,7 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label for="staffID">Supervisor Name</label>
-                                    <select class="form-control" name="svName" id="svName">
+                                    <select class="form-control" name="svName" id="svName" required>
                                         <option value="" selected disabled>Please Select</option>
                                         @foreach($supervisor as $data)
                                         <option value="{{ $data }}">{{ $data }}</option>

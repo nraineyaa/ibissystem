@@ -20,6 +20,8 @@ class CreateJobsTable extends Migration
             $table->string('location');
             $table->string('jobDesc');
             $table->string('workersName');
+            $table->string('remark')->nullable();
+            $table->string('status');
             $table->unsignedBigInteger('userID');
             $table->timestamps();
         });

@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="date">Date</label>
-                            <input type="date" class="form-control" id="date" name="date" value="{{$claim->date}}">
+                            <input type="date" class="form-control" id="date" name="date" value="{{$claim->date}}" readonly>
                         </div>
                     </div>
                     <div class="row">
@@ -163,7 +163,8 @@
                             <select class="form-control" name="status" id="status">
                                 @if($claim->status == null)
                                 <option value="" selected disabled>--Please Select--</option>
-                                <option value="Successful">Successful</option>
+                                @elseif($claim->status == "Pending")
+                                <option value="Pending">Pending</option>
                                 @elseif($claim->status == "Reviewed")
                                 <option value="Reviewed" selected>Reviewed</option>
                                 <option value="Successful">Successful</option>

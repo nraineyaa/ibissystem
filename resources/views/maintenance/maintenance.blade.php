@@ -13,6 +13,11 @@
         display: flex;
         justify-content: center;
     }
+    .btn-custom {
+    font-size: 24px;
+    /* Add any other custom styling if needed */
+}
+
 </style>
 <script>
     $(document).ready(function() {
@@ -49,18 +54,20 @@
                     <div class="col-lg-6">
                         <h4>Job List</h4>
                     </div>
+                    @if( auth()->user()->category == "Supervisor")
                     <div class="col-lg-6">
                         <a class="btn btn-success" role="button" href="{{ route('jobForm') }}" style="float:right;">
                             <i class="fas fa-plus"></i>&nbsp; Add New Job
                         </a>
                     </div>
+                    @else
+                    @endif
                 </div>
 
                 <div class="table-container">
                     <table class="table table-bordered table-sm" id="dataTable">
                         <thead>
                             <tr>
-                                <th>ID/th>
                                 <th>Job Title</th>
                                 <th>Date</th>
                                 <th>Location</th>
@@ -72,20 +79,25 @@
                         <tbody>
                             @foreach($jobList as $data)
                             <tr id="row{{$data->id}}">
-                                
-                            <td>{{ $data->id }}</td>
                                 <td>{{ $data->jobTitle }}</td>
                                 <td>{{ $data->date }}</td>
                                 <td>{{ $data->location }}</td>
                                 <td>{{ $data->workersName }}</td>
-                                <td style="width: 150px;">
-                                    <center><span class="badge badge-pill badge-danger" style="width: 100px;">Assigned</span></center>
+                                <td>
+                                    @if($data->status == "Assigned")
+                                    <center><span class="badge badge-pill badge-danger" style="width: 100px;">{{ $data->status }}</span></center>
+                                    @else
+                                    <center><span class="badge badge-pill badge-success" style="width: 100px;">{{ $data->status }}</span></center>
+                                    @endif
                                 </td>
-                                <td style="width: 100px;">
-                                    <div class="btn-group text-center">
-                                        <a href="{{route('editUser',$data->id)}}" class="btn btn-primary btn-sm">View</a>
+                                <td style="width: 200px;">
+                                    <div>
+                                        <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
+                                        <a href="{{ route('editJob', $data->id) }}" class="btn btn-custom"><i class="material-icons" style="color:red;">edit_square</i></a>
+                                        <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons" style="color:black;">email</i></a>
                                     </div>
                                 </td>
+
                             </tr>
                             @endforeach
                         </tbody>
@@ -113,7 +125,7 @@
                     <table class="table table-bordered table-sm" id="datReport">
                         <thead>
                             <tr>
-                            <th>ID</th>
+                                <th>ID</th>
                                 <th>Report Title</th>
                                 <th>Date</th>
                                 <th>file</th>
@@ -125,8 +137,8 @@
                         <tbody>
                             @foreach($reportList as $report)
                             <tr id="row{{$report->id}}">
-                                
-                            <td>{{ $report->id }}</td>
+
+                                <td>{{ $report->id }}</td>
                                 <td>{{ $report->reportTitle }}</td>
                                 <td>{{ $report->date }}</td>
                                 <td>{{ $report->file }}</td>

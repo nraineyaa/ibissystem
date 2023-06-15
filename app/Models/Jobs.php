@@ -16,5 +16,7 @@ class Jobs extends Model
         'jobDesc',
         'userID',
         'workersName',
+        'remark',
+        'status',
     ];
 }
