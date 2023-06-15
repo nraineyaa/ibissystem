@@ -13,6 +13,7 @@ class Reports extends Model
         'date',
         'file',
         'remark',
+        'status',
         'userID',
     ];
 }

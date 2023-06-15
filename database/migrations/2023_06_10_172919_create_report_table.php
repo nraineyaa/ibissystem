@@ -20,6 +20,7 @@ class CreateReportTable extends Migration
             $table->date('date');
             $table->binary('file');
             $table->string('remark');
+            $table->string('status');
             $table->unsignedBigInteger('userID');
             $table->timestamps();
         });

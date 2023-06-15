@@ -19,7 +19,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col">
-                <form action="{{ route('editJob', $job->jobID ) }}" method="get">
+                <form action="{{ route('updateJob', $job->jobID ) }}" method="get">
 
                     <input type="text" class="form-control" value="addtech" id="addTech" name="addTech" hidden>
                     <div class="row">

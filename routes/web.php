@@ -67,6 +67,10 @@ Route::controller(App\Http\Controllers\MaintenanceController::class)->group(func
     Route::get('/updateInfo/{id}', 'updateInfo')->name('updateInfo');
     Route::get('/editJob/{id}', 'editJob')->name('editJob');
     Route::get('/updateJob/{id}', 'updateJob')->name('updateJob');
+    Route::get('/editReport/{id}', 'editReport')->name('editReport');
+    Route::get('/updateReport/{id}', 'updateReport')->name('updateReport');
+    Route::get('/editStatus/{id}', 'editStatus')->name('editStatus');
+    Route::get('/updateStatus/{id}', 'updateStatus')->name('updateStatus');
 });
 
 

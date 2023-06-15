@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Jobs;
+use App\Models\Reports;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -46,6 +47,7 @@ class MaintenanceController extends Controller
                 'date',
                 'file',
                 'remark',
+                'status',
                 'userID',
 
             )
@@ -122,6 +124,7 @@ class MaintenanceController extends Controller
         $reportTitle = $request->input('reportTitle');
         $date = $request->input('date');
         $remark = $request->input('remark');
+        $status = $request->input('status');
         $userID = $currUser;
 
         $data = array(
@@ -131,6 +134,7 @@ class MaintenanceController extends Controller
             'date' => $date,
             'file' => $file,
             'remark' => $remark,
+            'status' => 'Pending',
             'userID' => $userID,
 
         );
@@ -183,11 +187,11 @@ class MaintenanceController extends Controller
                 'status' => 'Accepted',
             ]);
 
-        return back()->with('success', 'Claim info is successfully updated!');
+        return back()->with('success', 'Job info is successfully updated!');
     } 
-     public function editJob($id)
+     public function editJob(Request $request,$id)
     {
-
+        
         $workers = User::where('category', 'Worker')->get();
 
         $job = DB::table('jobs')
@@ -215,6 +219,7 @@ class MaintenanceController extends Controller
 
     public function updateJob(Request $request, $id)
     {
+        
         Jobs::where('id', '=', $request->id)
             ->update([
 
@@ -223,10 +228,90 @@ class MaintenanceController extends Controller
                 'location' => $request->location,
                 'jobDesc' => $request->jobDesc,
                 'workersName' => $request->workersName,
-                'remark' => $request->remark,
                 'status' => 'Assigned',
             ]);
 
-        return back()->with('success', 'Claim info is successfully updated!');
+        return back()->with('success', 'Job info is successfully updated!');
+    } 
+    
+    public function editReport(Request $request, $id)
+    {
+        
+        Reports::where('id', '=', $request->id);
+
+        $report = DB::table('report')
+        ->join('users', 'report.userID', '=', 'users.id')
+        ->where('report.id', '=', $id)
+        ->select(
+            'report.id as reportID',
+            'report.reportTitle',
+            'report.date',
+            'report.file',
+            'report.remark',
+            'report.userID',
+            'users.id',
+            'users.name',
+            'users.category',
+            'users.accNo',
+            'users.bankType',
+        )->first();
+
+    return view('maintenance.editReport', compact('report',));
     }
+
+    public function updateReport(Request $request, $id)
+    {
+        
+        Reports::where('id', '=', $request->id)
+            ->update([
+
+                'reportTitle' => $request->reportTitle,
+                'date' => $request->date,
+                'file' => $request->file,
+                'remark' => $request->remark,
+                'status' => 'Pending',
+            ]);
+
+        return back()->with('success', 'Report info is successfully updated!');
+    } 
+    public function editStatus(Request $request, $id)
+    {
+        
+        Reports::where('id', '=', $request->id);
+
+        $report = DB::table('report')
+        ->join('users', 'report.userID', '=', 'users.id')
+        ->where('report.id', '=', $id)
+        ->select(
+            'report.id as reportID',
+            'report.reportTitle',
+            'report.date',
+            'report.file',
+            'report.remark',
+            'report.userID',
+            'users.id',
+            'users.name',
+            'users.category',
+            'users.accNo',
+            'users.bankType',
+        )->first();
+
+    return view('maintenance.editReport', compact('report',));
+    }
+    public function updateStatus(Request $request, $id)
+    {
+        
+        Reports::where('id', '=', $request->id)
+            ->update([
+
+                'jobTitle' => $request->jobTitle,
+                'date' => $request->date,
+                'location' => $request->location,
+                'jobDesc' => $request->jobDesc,
+                'workersName' => $request->workersName,
+                'status' => 'Checked',
+            ]);
+
+        return back()->with('success', 'Report info is successfully updated!');
+    } 
 }
