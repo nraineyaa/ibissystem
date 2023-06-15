@@ -32,11 +32,6 @@
 </script>
 
 <!-- to display the alert message if the record has been deleted -->
-@if(session()->has('message'))
-<div class="alert alert-success">
-    {{ session()->get('message') }}
-</div>
-@endif
 
 <div class="card">
 
@@ -49,6 +44,7 @@
                     <div class="card-header pb-0" hidden>
                         <h4>Attendance</h4>
                     </div>
+                    <button type="submit" class="btn btn-primary" style="float: right; ; background:#2952a3;" role="button" hidden>Check-in</button>
                     @else
                     <form id="checkInForm" method="post" action="{{ route('checkIn') }}">
                         @csrf
@@ -71,11 +67,9 @@
                     <h4>Attendance Record</h4>
                 </div>
                 <div class="card-body">
-                    @if( auth()->user()->category== "Accountant")
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Check-in</th>
@@ -86,7 +80,6 @@
                         @foreach($attendList as $index => $data)
                         <tbody>
                             <tr id="row{{$data->id}}">
-                                <td>{{ $data->id }}</td>
                                 <td>{{ $data->date }}</td>
                                 <td>{{ $data->status }}</td>
                                 <td>{{ $data->checkIn }}</td>
@@ -108,7 +101,6 @@
 
 
 
-                @endif
                 <!-- FOR Manager TO VIEW RECORD APPOINTNMENT LIST END -->
             </div>
         </div>

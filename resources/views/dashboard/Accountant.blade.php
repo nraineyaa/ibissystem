@@ -30,13 +30,13 @@
 
     <?php
     $dataPoints = array(
-        array("label" => "Oxygen", "symbol" => "O", "y" => 46.6),
-        array("label" => "Silicon", "symbol" => "Si", "y" => 27.7),
-        array("label" => "Aluminium", "symbol" => "Al", "y" => 13.9),
-        array("label" => "Iron", "symbol" => "Fe", "y" => 5),
-        array("label" => "Calcium", "symbol" => "Ca", "y" => 3.6),
-        array("label" => "Sodium", "symbol" => "Na", "y" => 2.6),
-        array("label" => "Magnesium", "symbol" => "Mg", "y" => 2.1),
+        array("label" => "Ceo", "symbol" => "CEO", "y" => 46.6),
+        array("label" => "Supervisor", "symbol" => "SV", "y" => 27.7),
+        array("label" => "Accountant", "symbol" => "ACC", "y" => 13.9),
+        array("label" => "Human Resources", "symbol" => "HR", "y" => 5),
+        array("label" => "Head Technical", "symbol" => "HT", "y" => 3.6),
+        array("label" => "Manager", "symbol" => "M", "y" => 2.6),
+        array("label" => "Worker", "symbol" => "W", "y" => 2.1),
         array("label" => "Others", "symbol" => "Others", "y" => 1.5),
 
     )
@@ -52,7 +52,7 @@
                 theme: "light2",
                 animationEnabled: true,
                 title: {
-                    text: "Company Profit"
+                    text: "Average of Salary"
                 },
                 data: [{
                     type: "doughnut",
@@ -150,6 +150,7 @@
                     <div class="card" style="background:#337AC6;">
                         <div class="card-body">
                             <h5 style="color:antiquewhite; font-weight: bold;">Total Income</h5>
+                             <h5 style="color:antiquewhite; font-weight: bold;">RM 1,050.00</h5>
                         </div>
                     </div>
                 </div>
@@ -157,6 +158,7 @@
                     <div class="card" style="background:#6EB2FA;">
                         <div class="card-body">
                             <h5 style="color:antiquewhite; font-weight: bold;">Total Invoice</h5>
+                            <h5 style="color:antiquewhite; font-weight: bold;">39</h5>
                         </div>
                     </div>
                 </div>
@@ -170,13 +172,15 @@
                     <div class="card" style="background:#AB5BFF;">
                         <div class="card-body">
                             <h5 style="color:antiquewhite; font-weight: bold;">Total Claim</h5>
+                            <h5 style="color:antiquewhite; font-weight: bold;">15</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 grid-margin ">
                     <div class="card" style="background:#3ED97B;">
                         <div class="card-body">
-                            <h5 style="color:antiquewhite; font-weight: bold;">Net Profit</h5>
+                            <h5 style="color:antiquewhite; font-weight: bold;">Total User</h5> 
+                            <h5 style="color:antiquewhite; font-weight: bold;">8</h5>
                         </div>
                     </div>
                 </div>

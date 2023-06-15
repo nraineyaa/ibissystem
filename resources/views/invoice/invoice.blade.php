@@ -27,15 +27,15 @@
                 </div>
             </div>
             <div class="col-md-4 grid-margin stretch-card">
-                <div class="card" style="background:#FFC77F;">
+                <div class="card" style="background:#156DA2;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
-                                <i class="material-icons" style="font-size:60px;">pending_actions</i>
+                                <i class="material-icons" style=" color:antiquewhite; font-size:60px;">pending_actions</i>
                             </div>
                             <div class="form-group col-md-6">
-                                <h5 style=" font-weight: bold;">Unpaid</h5>
-                                <h4>5</h4>
+                                <h5 style="color:antiquewhite;  font-weight: bold;">Unpaid</h5>
+                                <h4 style="color:antiquewhite;" >5</h4>
                             </div>
                         </div>
                     </div>

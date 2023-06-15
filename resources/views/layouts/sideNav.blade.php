@@ -51,30 +51,31 @@
                             <span>Claim</span>
                         </a>
                     </li>
-
+                @if(auth()->user()->category!="Supervisor" && auth()->user()->category!="Worker")
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('invoice.page*') ? 'active' : '' }}" href="{{ route('invoice.page') }}">
                             <i class="material-icons">receipt_long</i>
                             <span>Invoice</span>
                         </a>
                     </li>
-                    
+                @endif
+                @if(auth()->user()->category== "Human Resource")
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('userList.page*') ? 'active' : '' }}" href="{{ route('userList.page') }}">
                             <i class="material-icons">account_circle</i>
                             <span>User</span>
                         </a>
                     </li>
-
+                @endif
+                @if(auth()->user()->category!="Human Resource" && auth()->user()->category!="Accountant")
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('maintenance.page*') ? 'active' : '' }}" href="{{ route('maintenance.page') }}">
                             <i class="material-icons">settings</i>
-                            <span>Maintenance and Services</span>
+                            <span>Maintenance and Report</span>
                         </a>
                     </li>
-
-                 
                 </ul>
+                @endif
 
 
             </div>
@@ -156,7 +157,7 @@
 
             <footer class="main-footer d-flex p-2 px-3 bg-white border-top">
                 <span class="copyright ml-auto my-auto mr-2">Copyright © {{ now()->year }}
-                    <a href="#" rel="nofollow">Nurain Aleeya</a>
+                    <a href="#" rel="nofollow">IBIS-ms</a>
                 </span>
             </footer>
 
