@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Jobs;
 use App\Models\Reports;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 
 class MaintenanceController extends Controller
@@ -16,7 +17,7 @@ class MaintenanceController extends Controller
     public function index()
     { //
 
-        
+
 
         $currID = Auth::user()->id;
 
@@ -111,7 +112,6 @@ class MaintenanceController extends Controller
 
     public function addReport(Request $request)
     {
-
         $currUser = Auth::user()->id;
         $request->validate([
             'file' => 'required|mimes:pdf,xlx,csv|max:2048',
@@ -120,7 +120,6 @@ class MaintenanceController extends Controller
         $file = time() . '.' . $request->file->extension();
         $request->file->move(public_path('uploads'), $file);
 
-
         $reportTitle = $request->input('reportTitle');
         $date = $request->input('date');
         $remark = $request->input('remark');
@@ -128,22 +127,19 @@ class MaintenanceController extends Controller
         $userID = $currUser;
 
         $data = array(
-
-
             'reportTitle' => $reportTitle,
             'date' => $date,
-            'file' => $file,
+            'filePath' => 'uploads/' . $file,
             'remark' => $remark,
             'status' => 'Pending',
             'userID' => $userID,
-
         );
-
 
         DB::table('report')->insert($data);
 
         return back()->with('success', 'Job successfully added');
     }
+
 
     public function jobInfo($id)
     {
@@ -188,10 +184,10 @@ class MaintenanceController extends Controller
             ]);
 
         return back()->with('success', 'Job info is successfully updated!');
-    } 
-     public function editJob(Request $request,$id)
+    }
+    public function editJob(Request $request, $id)
     {
-        
+
         $workers = User::where('category', 'Worker')->get();
 
         $job = DB::table('jobs')
@@ -219,7 +215,7 @@ class MaintenanceController extends Controller
 
     public function updateJob(Request $request, $id)
     {
-        
+
         Jobs::where('id', '=', $request->id)
             ->update([
 
@@ -232,36 +228,37 @@ class MaintenanceController extends Controller
             ]);
 
         return back()->with('success', 'Job info is successfully updated!');
-    } 
-    
+    }
+
     public function editReport(Request $request, $id)
     {
-        
+
         Reports::where('id', '=', $request->id);
 
         $report = DB::table('report')
-        ->join('users', 'report.userID', '=', 'users.id')
-        ->where('report.id', '=', $id)
-        ->select(
-            'report.id as reportID',
-            'report.reportTitle',
-            'report.date',
-            'report.file',
-            'report.remark',
-            'report.userID',
-            'users.id',
-            'users.name',
-            'users.category',
-            'users.accNo',
-            'users.bankType',
-        )->first();
+            ->join('users', 'report.userID', '=', 'users.id')
+            ->where('report.id', '=', $id)
+            ->select(
+                'report.id as reportID',
+                'report.reportTitle',
+                'report.filePath',
+                'report.date',
+                'report.file',
+                'report.remark',
+                'report.userID',
+                'users.id',
+                'users.name',
+                'users.category',
+                'users.accNo',
+                'users.bankType',
+            )->first();
 
-    return view('maintenance.editReport', compact('report',));
+        return view('maintenance.editReport', compact('report'));
     }
 
     public function updateReport(Request $request, $id)
     {
-        
+
         Reports::where('id', '=', $request->id)
             ->update([
 
@@ -273,34 +270,35 @@ class MaintenanceController extends Controller
             ]);
 
         return back()->with('success', 'Report info is successfully updated!');
-    } 
+    }
     public function editStatus(Request $request, $id)
     {
-        
+
         Reports::where('id', '=', $request->id);
 
         $report = DB::table('report')
-        ->join('users', 'report.userID', '=', 'users.id')
-        ->where('report.id', '=', $id)
-        ->select(
-            'report.id as reportID',
-            'report.reportTitle',
-            'report.date',
-            'report.file',
-            'report.remark',
-            'report.userID',
-            'users.id',
-            'users.name',
-            'users.category',
-            'users.accNo',
-            'users.bankType',
-        )->first();
+            ->join('users', 'report.userID', '=', 'users.id')
+            ->where('report.id', '=', $id)
+            ->select(
+                'report.id as reportID',
+                'report.reportTitle',
+                'report.filePath',
+                'report.date',
+                'report.file',
+                'report.remark',
+                'report.userID',
+                'users.id',
+                'users.name',
+                'users.category',
+                'users.accNo',
+                'users.bankType',
+            )->first();
 
-    return view('maintenance.editReport', compact('report',));
+        return view('maintenance.editReport', compact('report'));
     }
     public function updateStatus(Request $request, $id)
     {
-        
+
         Reports::where('id', '=', $request->id)
             ->update([
 
@@ -313,5 +311,30 @@ class MaintenanceController extends Controller
             ]);
 
         return back()->with('success', 'Report info is successfully updated!');
-    } 
+    }
+    public function getFile($id)
+    {
+        $report = Reports::findOrFail($id);
+        
+        // Get the file path from the report
+        $filePath = $report->filePath;
+        
+        // Perform any necessary operations with the file path
+        
+        // Return the file
+        return response()->download(storage_path('app/public/' . $filePath));
+    }
+    
+
+    public function download($filePath)
+    {
+        $filePath = 'uploads/' . $filePath;
+        $file = storage_path('app/public/' . $filePath);
+
+        if (file_exists($file)) {
+            return response()->download($file);
+        } else {
+            abort(404, 'File not found.');
+        }
+    }
 }

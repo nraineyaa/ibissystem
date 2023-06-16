@@ -10,6 +10,7 @@ class Reports extends Model
     use HasFactory;
     protected $fillable = [
         'reportTitle',
+        'filePath',
         'date',
         'file',
         'remark',

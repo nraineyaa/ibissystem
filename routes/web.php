@@ -71,6 +71,8 @@ Route::controller(App\Http\Controllers\MaintenanceController::class)->group(func
     Route::get('/updateReport/{id}', 'updateReport')->name('updateReport');
     Route::get('/editStatus/{id}', 'editStatus')->name('editStatus');
     Route::get('/updateStatus/{id}', 'updateStatus')->name('updateStatus');
+    Route::get('/file/{id}', 'getFile')->name('getFile');
+    Route::get('/download/{id}', 'download')->name('download');
 });
 
 

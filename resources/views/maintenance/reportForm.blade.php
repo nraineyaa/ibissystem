@@ -7,7 +7,7 @@
     }
 
     .report-text {
-        float: right;
+      
     }
 </style>
 <div class="card mb-3">

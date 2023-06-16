@@ -121,9 +121,12 @@
                         <h4>Report List</h4>
                     </div>
                     <div class="col-lg-6">
+                        @if( auth()->user()->category == "Worker")
                         <a class="btn btn-success" role="button" href="{{ route('reportForm') }}" style="float:right;">
                             <i class="fas fa-plus"></i>&nbsp; Add New Report
                         </a>
+                        @else
+                        @endif
                     </div>
                 </div>
                 <div class="table-container">
@@ -153,12 +156,15 @@
                                     <center><span class="badge badge-pill badge-success" style="width: 100px;">{{ $report->status }}</span></center>
                                     @endif
                                 </td>
-                                <td style="width: 200px;">
+                                <td style="width: 100px;">
                                     <div>
-                                        <a href="{{ route('editStatus', $data->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
-                                        <a href="{{ route('editReport', $data->id) }}" class="btn btn-custom"><i class="material-icons" style="color:red;">edit_square</i></a>
-                                        <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons" style="color:black;">email</i></a>
-
+                                        @if( auth()->user()->category == "Worker")
+                                        <a href="{{ route('editStatus', $report->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
+                                        <a href="{{ route('jobInfo', $report->id) }}" class="btn btn-custom"><i class="material-icons" style="color:black;">email</i></a>
+                                        @else
+                                        <center><a href="{{ route('editStatus', $report->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
+                                        </center>
+                                        @endif
                                     </div>
                                 </td>
 
