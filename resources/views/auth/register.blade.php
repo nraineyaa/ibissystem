@@ -71,12 +71,8 @@
                             <div class="col-md-6">
                                 <select class="form-control" name="category">
                                     <option value="">Please select</option>
-                                    <option value="Student">Student</option>
-                                    <option value="Lecturer">Lecturer</option>
-                                    <option value="Committee">Committee</option>
-                                    <option value="Coordinator">Coordinator</option>
-                                    <option value="Dean">Dean</option>
-                                    <option value="Hosd">HOSD</option>
+                                    <option value="Human Resource">HR</option>
+                                  
                                 </select>
                                 @error('category')
                                 <span class="invalid-feedback" role="alert">

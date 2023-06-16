@@ -52,7 +52,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h4>Job List TEST TEST</h4>
+                        <h4>Job List</h4>
                     </div>
                     @if( auth()->user()->category == "Supervisor")
                     <div class="col-lg-6">
