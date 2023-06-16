@@ -133,7 +133,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Change Password</h4>
+                <h4 class="modal-title">Change Passwordaaaaaaaa</h4>
             </div>
             <div class="card-body">
 
