@@ -16,7 +16,7 @@
             <div class="card card-small mb-3 pt-0">
                 <div class="card-header border-bottom text-center">
                     <div class="mb-3 mx-auto">
-                        <img class="rounded-circle" src="{{asset('uploads/'. Auth::user()->picture)}}" alt=" User Avatar" width="110" height="110">
+                        <img class="rounded-circle" src="asset/uploads/. {{Auth::user()->picture}}" alt=" User Avatar" width="110" height="110">
                     </div>
                     <h4 class="mb-0">{{ Auth::user()->name }}</h4>
                     <span class="text-muted d-block mb-2">{{ Auth::user()->category }}</span>

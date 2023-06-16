@@ -167,8 +167,6 @@ class UserController extends Controller
     public function updateAvatar(Request $request)
     {
 
-       
-
         $user = Auth::user();
 
         $avatarName = $user->id . '.' . request()->avatar->getClientOriginalExtension();
