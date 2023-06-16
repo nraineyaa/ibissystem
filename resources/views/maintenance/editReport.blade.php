@@ -33,14 +33,6 @@
                         </div>
 
                     </div>
-                    <!-- <div class="row">
-                        <div class="form-group col-md-12">
-                            <label for="docs">Document</label>
-                            <input type="text" name="id" id="id" class="form-control" value="{{$report->filePath}}">
-                            <a id="downloadLink" href="{{ route('download', ['filePath' => $report->filePath]) }}">Download File</a>
-                        </div>
-                    </div> -->
-
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="docs">Document</label>
