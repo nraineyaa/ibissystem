@@ -166,11 +166,25 @@ class UserController extends Controller
 
     public function updateAvatar(Request $request)
     {
-
         $request->validate([
-            'avatar' => 'required|file|mimetypes:image/jpeg,image/png,image/jpg,image/gif,image/svg+xml,image/heic|max:2048',
+            'avatar' => 'required|file|mimetypes:image/jpeg,image/png,image/jpg,image/gif,image/svg+xml,image/heic,image/heif|max:2048',
         ]);
-        
+
+        $avatarMimeType = $request->file('avatar')->getClientMimeType();
+
+        // Verify if the MIME type is valid
+        if (!in_array($avatarMimeType, ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml', 'image/heic', 'image/heif'])) {
+            // Handle invalid MIME type
+            // Display an error message or redirect back with an error
+        }
+        $avatarExtension = $request->file('avatar')->guessExtension();
+
+        // Verify if the extension is valid
+        if (!in_array($avatarExtension, ['jpeg', 'png', 'jpg', 'gif', 'svg', 'heic', 'heif'])) {
+            // Handle invalid extension
+            // Display an error message or redirect back with an error
+        }
+
 
         $user = Auth::user();
 
@@ -197,11 +211,11 @@ class UserController extends Controller
                     'bankType' => $request->bankType,
                     'accNo' => $request->accNo,
                 ]);
-    
+
             return response()->json(array('success' => true));
         }
     }
-    
+
 
     public function updatePassword(Request $request)
     {
@@ -218,6 +232,4 @@ class UserController extends Controller
         return back()
             ->with('success', 'You have successfully change password.');
     }
-
-    
 }
