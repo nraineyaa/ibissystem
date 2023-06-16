@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <div class="col-lg-6 col-md-6 col-sm-6">
-    <h4>Manage Invoice</h4>
+    <h4>Manage Invoice Nurin GIla</h4>
 </div>
 
 <div class="row mb-4">
@@ -35,7 +35,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <h5 style="color:antiquewhite;  font-weight: bold;">Unpaid</h5>
-                                <h4 style="color:antiquewhite;" >5</h4>
+                                <h4 style="color:antiquewhite;">5</h4>
                             </div>
                         </div>
                     </div>
