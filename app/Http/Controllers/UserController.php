@@ -168,7 +168,7 @@ class UserController extends Controller
     {
 
         $request->validate([
-            'avatar' => 'required|file|mimes:jpeg,png,jpg,gif,svg,heic,photo|max:2048',
+            'avatar' => 'required|file|mimetypes:image/jpeg,image/png,image/jpg,image/gif,image/svg+xml,image/heic|max:2048',
         ]);
         
 
