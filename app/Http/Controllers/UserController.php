@@ -168,8 +168,9 @@ class UserController extends Controller
     {
 
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg,HEIC,photo|max:2048',
+            'avatar' => 'required|file|mimes:jpeg,png,jpg,gif,svg,heic,photo|max:2048',
         ]);
+        
 
         $user = Auth::user();
 
