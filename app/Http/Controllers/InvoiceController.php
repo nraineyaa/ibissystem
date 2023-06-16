@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
@@ -12,18 +14,18 @@ class InvoiceController extends Controller
     public function index()
     { //
         $invoiceList = DB::table('invoice')
-        ->select(
-            
-            'id',
-            'issueDate',
-            'dueDate',
-            'address',
-            'remark',
-            'userID',
+            ->select(
 
-        )
-        ->orderBy('issueDate', 'asc')
-        ->get();
+                'id',
+                'issueDate',
+                'dueDate',
+                'address',
+                'remark',
+                'userID',
+
+            )
+            ->orderBy('issueDate', 'asc')
+            ->get();
         return view('invoice.invoice', compact('invoiceList'));
     }
 
@@ -85,7 +87,7 @@ class InvoiceController extends Controller
         }
     }
 
-    
+
     public function addInvoice(Request $request)
     {
 
@@ -115,10 +117,63 @@ class InvoiceController extends Controller
 
         return back()->with('success', 'Invoice successfully added');
     }
-    
+
     public function addItemForm(Request $request)
     {
 
         return view('invoice.addItemForm');
     }
+
+    public function companyList(Request $request)
+    {
+
+        $companyList = DB::table('company')
+            ->select(
+
+                'id',
+                'compName',
+                'compPhone',
+                'compEmail',
+                'address',
+                'invoiceID',
+
+            )
+            ->orderBy('compName', 'asc')
+            ->get();
+        return view('invoice.companyList', compact('companyList'));
+    }
+
+    public function addCompany(Request $request)
+    {
+
+        $currUser = Auth::user()->id;
+
+        $compName = $request->input('compName');
+        $compPhone = $request->input('compPhone');
+        $email = $request->input('email');
+        $address = $request->input('address');
+        $userID = $currUser;
+
+        $data = array(
+            'compName' => $compName,
+            'compPhone' => $compPhone,
+            'compEmail' => $email,
+            'address' => $address,
+            'userID' => $userID,
+
+        );
+
+
+        DB::table('company')->insert($data);
+
+        return back()->with('success', 'Company successfully added');
+    }
+
+    public function compForm(Request $request)
+    {
+
+        return view('invoice.compForm');
+    }
+
+    
 }

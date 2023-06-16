@@ -95,6 +95,9 @@ Route::controller(App\Http\Controllers\InvoiceController::class)->group(function
     Route::post('/addItem', 'addItem')->name('addItem');
     Route::post('/addInvoice', 'addInvoice')->name('addInvoice');
     Route::get('/addItemForm', 'addItemForm')->name('addItemForm');
+    Route::get('/compForm', 'compForm')->name('compForm');
+    Route::get('/companyList', 'companyList')->name('companyList');
+    Route::post('/addCompany', 'addCompany')->name('addCompany');
 });
 
 //====================================================== Attendance CONTROLLER ======================================================
