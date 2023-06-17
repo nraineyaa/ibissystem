@@ -67,13 +67,8 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 d-flex justify-content-end">
                 <div class="mr-2">
-                    <a class="btn btn-success btn-sm" role="button" href="{{ route('invoiceForm') }}">
-                        <i class="fas fa-plus"></i> Add New Invoice
-                    </a>
-                </div>
-                <div>
                     <a class="btn btn-success btn-sm" role="button" href="{{ route('companyList') }}">
-                        <i class="fas fa-building"></i> Company List
+                        <i class="fas fa-plus"></i> Add New Invoice
                     </a>
                 </div>
             </div>
@@ -94,7 +89,7 @@
                                 <th style="width:40px">#</th>
                                 <th>Issue Date</th>
                                 <th>Due Date</th>
-                                <th>Address</th>
+                                <th>Company</th>
                                 <th>Status</th>
                                 <th style="width:30px">Remark</th>
                                 <th style="width:30px">Action</th>
@@ -104,17 +99,15 @@
                             @foreach($invoiceList as $data)
 
                             <tr id="row{{$data->id}}">
-                                <td>{{ $data->id }}</td>
+                                <td>{{ $data->invoiceNumber}}</td>
                                 <td>{{ $data->issueDate }}</td>
                                 <td>{{ $data->dueDate }}</td>
-                                <td>{{ $data->address }}</td>
-                                <td style="width: 100px;"> <span class="badge badge-pill badge-danger" style="width: 100px;">Unpaid</span></td>
+                                <td>{{ $data->compName }}</td>
+                                <td style="width: 100px; color:red;"> <span style="width: 100px;">Unpaid</span></td>
                                 <td>{{ $data->remark }}</td>
                                 <td>
                                     <div class="btn-group" style="float: right;">
-                                        <span class="btn btn-default material-symbols-outlined">
-                                            chevron_right
-                                        </span>
+                                        <a type="button" href="{{ route('editClaim', $data->id ) }}" class="btn btn-primary">View</a>
                                     </div>
                                 </td>
                             </tr>
@@ -127,5 +120,17 @@
         </div>
     </div>
 
-
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "order": [
+                    [0, "asc"]
+                ],
+                "language": {
+                    search: '<i class="fa fa-search" aria-hidden="true"></i>',
+                    searchPlaceholder: 'Search Invoice'
+                }
+            });
+        });
+    </script>
     @endsection

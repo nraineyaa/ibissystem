@@ -25,7 +25,10 @@
     <div class="card-header pb-2">
         <div class="invoice-text">
             <h2>#INVOICE</h2>
+            <!-- <h4 id="invoiceNumber"></h4>
+            <input type="hidden" name="invoiceNumber" id="invoiceNumberInput"> -->
         </div>
+
         <div class="header-content">
             <img id="main-logo" class="d-inline-block align-center mr-1" style="max-width: 100px;" src="{{ asset('frontend') }}/images/logoibis.png" alt="petakom logo">
             <div class="address-text">
@@ -47,9 +50,18 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="clientAdd">Bill To</label>
-                            <textarea style="height: 100px;" class="form-control" id="address" name="address" required></textarea>
+                            <textarea style="height: 115px;" class="form-control" id="address" name="address" readonly>
+                            {{$companyData->compName}}
+                            {{$companyData->address}}
+                            Phone Number : {{$companyData->compPhone}}
+                            Email: {{$companyData->compEmail}}
+                            </textarea>
                         </div>
                     </div>
+
+                    <input type="hidden" name="compID" value="{{ $companyData->id }}">
+
+
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="date">Issued Date</label>
@@ -61,9 +73,9 @@
                         </div>
                     </div>
 
-
                     <div class="row">
                         <div class="form-group col-md-12">
+                            @csrf
                             <label for="clientAdd">Description</label>
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -77,59 +89,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr id="">
-                                        <td><input type="text" class="form-control" id="bil" name="bil" readonly></td>
-                                        <td><input type="text" class="form-control" id="itemName" name="itemName" readonly></td>
-                                        <td><input type="text" class="form-control" id="quantity" name="quantity" readonly></td>
-                                        <td><input type="text" class="form-control" id="price" name="price" readonly></td>
-                                        <td><input type="text" class="form-control" id="amount" name="amount" readonly></td>
+                                    <tr id="rowTemplate">
+                                        <td><input type="text" class="form-control" name="bil[]" readonly></td>
+                                        <td><input type="text" class="form-control" name="itemName[]"></td>
+                                        <td><input type="text" class="form-control quantity" name="quantity[]"></td>
+                                        <td><input type="text" class="form-control price" name="price[]"></td>
+                                        <td><input type="text" class="form-control amount" name="amount[]" readonly></td>
                                         <td>
                                             <div class="btn-group" style="float: right;">
-                                            <a href="{{ route('addItemForm') }} ">Add Item</a>
-
+                                                <button type="button" class="btn btn-primary fa fa-plus"></button>
                                             </div>
                                         </td>
                                     </tr>
-
                                 </tbody>
                             </table>
+
+                            <!-- Total Amount -->
+                            <div class="form-group">
+                                <label for="totalAmount">Total Amount</label>
+                                <input type="text" class="form-control" id="totalAmount" name="totalAmount" readonly>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label for="clientAdd">Description</label>
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th style="width:70px">Bil</th>
-                                        <th>Item</th>
-                                        <th style="width:80px">Quantity</th>
-                                        <th style="width:200px">Price</th>
-                                        <th style="width:200px">Amount</th>
-                                        <th style="width:30px">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($itemList as $data)
-                                    <tr id="row{{$data->id}}">
-                                        <td>{{ $data->bil }}</td>
-                                        <td>{{ $data->itemName }}</td>
-                                        <td>{{ $data->quantity }}</td>
-                                        <td>{{ $data->price }}</td>
-                                        <td>{{ $data->amount }}</td>
-                                        <td>
-                                            <div class="btn-group" style="float: right;">
-                                                <button type="submit" onclick="deleteItem(this)" data-id="{{ $data->id }}" data-name="{{ $data->itemName }}" id="formNew" class="btn btn-danger">Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>
 
-                                    @endforeach
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="clientAdd">Payment</label>
@@ -148,13 +130,85 @@
                         <a href="{{ url()->previous() }}" class="btn btn-danger btn-md">Cancel</a>
                         <button type="submit" id="formNew" class="btn btn-primary">Submit</button>
                     </div>
-
                 </div>
             </div>
         </div>
     </form>
-</div>
 
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var rowCounter = 1;
+        var currentYear = new Date().getFullYear();
+
+        // Function to calculate the amount
+        function calculateAmount(row) {
+            var quantity = row.find('.quantity').val();
+            var price = row.find('.price').val();
+
+            if (quantity && price) {
+                var amount = parseFloat(quantity) * parseFloat(price);
+                row.find('.amount').val(amount.toFixed(2));
+            }
+        }
+
+        // Function to calculate the total amount
+        function calculateTotalAmount() {
+            var total = 0;
+            $('.amount').each(function() {
+                var amount = parseFloat($(this).val());
+                if (!isNaN(amount)) {
+                    total += amount;
+                }
+            });
+            $('#totalAmount').val(total.toFixed(2));
+        }
+
+        // Function to generate the invoice number
+        function generateInvoiceNumber() {
+            var prefix = 'INV';
+            var formattedCounter = String(rowCounter).padStart(3, '0');
+            var invoiceNumber = prefix + currentYear + formattedCounter;
+            $('#invoiceNumber').text(invoiceNumber);
+            $('#invoiceNumberInput').val(invoiceNumber);
+        }
+
+        // Function to add a new row when the fa-plus button is clicked
+        $('#formNew').on('click', '.fa-plus', function(e) {
+            e.preventDefault();
+
+            var newRow = $('#rowTemplate').clone(); // Clone the rowTemplate
+            newRow.attr('id', 'row' + rowCounter); // Set a unique id for the new row
+            newRow.find('input').val(''); // Clear the input values in the new row
+
+            rowCounter++; // Increment the row counter
+
+            // Increment the value of the "bil" input in the new row
+            newRow.find('#bil').val(rowCounter);
+
+            // Append the new row to the table body
+            $('#dataTable tbody').append(newRow);
+
+            generateInvoiceNumber(); // Generate the invoice number
+        });
+
+        // Calculate the amount when the quantity or price changes
+        $('#formNew').on('keyup', '.quantity, .price', function() {
+            var row = $(this).closest('tr');
+            calculateAmount(row);
+            calculateTotalAmount(); // Recalculate the total amount
+        });
+
+        // Calculate the amount for the first row on page load
+        calculateAmount($('#rowTemplate'));
+
+        // Set the initial value of the "bil" input in the first row
+        $('#bil').val(rowCounter);
+
+        generateInvoiceNumber(); // Generate the invoice number for the first row on page load
+    });
+</script>
 
 <script>
     function deleteItem(e) {

@@ -1,5 +1,4 @@
 @extends('layouts.sideNav')
-
 @section('content')
 
 <script>
@@ -57,9 +56,7 @@
                                 <td>{{ $data->compEmail }}</td>
                                 <td>
                                     <div class="btn-group" style="float: right;">
-                                        <span class="btn btn-default material-symbols-outlined">
-                                            chevron_right
-                                        </span>
+                                        <a type="button" href="{{ route('invoiceForm', $data->id ) }}" class="btn btn-primary">Select</a>
                                     </div>
                                 </td>
                             </tr>
@@ -68,9 +65,6 @@
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
-
-
     @endsection

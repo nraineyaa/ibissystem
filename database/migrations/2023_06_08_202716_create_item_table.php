@@ -15,7 +15,7 @@ class CreateItemTable extends Migration
     {
         Schema::create('item', function (Blueprint $table) {
             $table->id();
-            $table->string('bil');
+            $table->string('invID');
             $table->string('itemName');
             $table->string('quantity');
             $table->decimal('price', 8, 2);

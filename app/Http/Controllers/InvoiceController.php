@@ -13,15 +13,20 @@ class InvoiceController extends Controller
     //display new user 
     public function index()
     { //
-        $invoiceList = DB::table('invoice')
+        $currUser= Auth::user()->id;
+        $invoiceList = DB::table('invoices')
+            ->join('company', 'invoices.compID', '=', 'company.id')
             ->select(
 
-                'id',
-                'issueDate',
-                'dueDate',
-                'address',
-                'remark',
-                'userID',
+                'invoices.id as invoiceID',
+                'invoices.issueDate',
+                'invoices.dueDate',
+                'invoices.remark',
+                'invoices.invoiceNumber',
+                'invoices.userID',
+                'company.id',
+                'company.compName',
+                'company.address',
 
             )
             ->orderBy('issueDate', 'asc')
@@ -29,24 +34,7 @@ class InvoiceController extends Controller
         return view('invoice.invoice', compact('invoiceList'));
     }
 
-    public function invoiceForm(Request $request)
-    {
 
-        $itemList = DB::table('item')
-            ->select(
-                'id',
-                'bil',
-                'itemName',
-                'quantity',
-                'price',
-                'amount',
-                'userID',
-
-            )
-            ->orderBy('bil', 'asc')
-            ->get();
-        return view('invoice.invoiceForm', compact('itemList'));
-    }
 
     public function addItem(Request $request)
     {
@@ -88,35 +76,6 @@ class InvoiceController extends Controller
     }
 
 
-    public function addInvoice(Request $request)
-    {
-
-        $currUser = Auth::user()->id;
-
-        $issueDate = $request->input('issueDate');
-        $dueDate = $request->input('dueDate');
-        $address = $request->input('address');
-        $payment = $request->input('payment');
-        $remark = $request->input('remark');
-        $userID = $currUser;
-
-        $data = array(
-
-
-            'issueDate' => $issueDate,
-            'dueDate' => $dueDate,
-            'address' => $address,
-            'payment' => $payment,
-            'remark' => $remark,
-            'userID' => $userID,
-
-        );
-
-
-        DB::table('invoice')->insert($data);
-
-        return back()->with('success', 'Invoice successfully added');
-    }
 
     public function addItemForm(Request $request)
     {
@@ -159,7 +118,6 @@ class InvoiceController extends Controller
             'compPhone' => $compPhone,
             'compEmail' => $email,
             'address' => $address,
-            'userID' => $userID,
 
         );
 
@@ -175,5 +133,82 @@ class InvoiceController extends Controller
         return view('invoice.compForm');
     }
 
-    
+    public function invoiceForm(Request $request, $id)
+    {
+
+        $companyData = DB::table('company')
+            ->select(
+
+                'id',
+                'compName',
+                'compPhone',
+                'compEmail',
+                'address',
+
+            )
+            ->where('id', '=', $id)
+            ->first();
+
+        return view('invoice.invoiceForm', compact('companyData'));
+    }
+
+    function generateInvoiceNumber()
+    {
+        $prefix = 'INV';
+        $currentYear = date('Y');
+        $counter = Invoice::whereYear('created_at', $currentYear)->count() + 1;
+        $formattedCounter = str_pad($counter, 3, '0', STR_PAD_LEFT);
+        return $prefix . $currentYear . $formattedCounter;
+    }
+
+    // Generate a unique item ID
+    function generateItemID()
+    {
+        return uniqid('ITEM');
+    }
+
+
+    public function addInvoice(Request $request)
+    {
+        // Retrieve the input data from the request
+        $issueDate = $request->input('issueDate');
+        $dueDate = $request->input('dueDate');
+        $payment = $request->input('payment');
+        $remark = $request->input('remark');
+        $totalAmount = $request->input('totalAmount');
+        $compID = $request->input('compID');
+        $userID = auth()->user()->id;
+        $itemName = $request->input('itemName');
+        $quantity = $request->input('quantity');
+        $price = $request->input('price');
+
+        // Save the invoice data
+        $invoice = new Invoice();
+        $invoice->issueDate = $issueDate;
+        $invoice->dueDate = $dueDate;
+        $invoice->payment = $payment;
+        $invoice->remark = $remark;
+        $invoice->totalAmount = $totalAmount;
+        $invoice->userID = $userID;
+        $invoice->compID = $compID;
+        $invoice->invoiceNumber = $this->generateInvoiceNumber();
+        $invoice->save();
+
+        // Save the item data
+        $invID = $invoice->id;
+        $itemCount = count($itemName);
+        for ($i = 0; $i < $itemCount; $i++) {
+            $item = new Item();
+            $item->invID = $invID;
+            $item->itemName = $itemName[$i];
+            $item->quantity = $quantity[$i];
+            $item->price = $price[$i];
+            $item->amount = $quantity[$i] * $price[$i];
+            $item->userID = $userID; // Generate the item ID
+            $item->save();
+        }
+
+        // Redirect or return a response as needed
+        return redirect()->back()->with('success', 'Invoice created successfully.');
+    }
 }

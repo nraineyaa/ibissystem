@@ -90,11 +90,10 @@ Route::controller(App\Http\Controllers\FinanceController::class)->group(function
 
 Route::controller(App\Http\Controllers\InvoiceController::class)->group(function () {
     Route::get('/invoice', 'index')->name('invoice.page');
-    Route::get('/invoiceForm', 'invoiceForm')->name('invoiceForm');
+    Route::get('/invoiceForm{id}', 'invoiceForm')->name('invoiceForm');
     Route::delete('/deleteItem/{id}', 'deleteItem')->name('deleteItem');
     Route::post('/addItem', 'addItem')->name('addItem');
-    Route::post('/addInvoice', 'addInvoice')->name('addInvoice');
-    Route::get('/addItemForm', 'addItemForm')->name('addItemForm');
+    Route::post('/invoice/add', 'addInvoice')->name('addInvoice');
     Route::get('/compForm', 'compForm')->name('compForm');
     Route::get('/companyList', 'companyList')->name('companyList');
     Route::post('/addCompany', 'addCompany')->name('addCompany');
