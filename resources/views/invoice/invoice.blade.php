@@ -103,11 +103,11 @@
                                 <td>{{ $data->issueDate }}</td>
                                 <td>{{ $data->dueDate }}</td>
                                 <td>{{ $data->compName }}</td>
-                                <td style="width: 100px; color:red;"> <span style="width: 100px;">Unpaid</span></td>
+                                <td style="width: 100px; color:red;">{{ $data->status }}</td>
                                 <td>{{ $data->remark }}</td>
                                 <td>
                                     <div class="btn-group" style="float: right;">
-                                        <a type="button" href="{{ route('editClaim', $data->id ) }}" class="btn btn-primary">View</a>
+                                        <a type="button" href="{{ route('viewInvoice', $data->invoiceID ) }}" class="btn btn-primary">View</a>
                                     </div>
                                 </td>
                             </tr>

@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
+use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
@@ -13,7 +14,7 @@ class InvoiceController extends Controller
     //display new user 
     public function index()
     { //
-        $currUser= Auth::user()->id;
+        $currUser = Auth::user()->id;
         $invoiceList = DB::table('invoices')
             ->join('company', 'invoices.compID', '=', 'company.id')
             ->select(
@@ -22,6 +23,7 @@ class InvoiceController extends Controller
                 'invoices.issueDate',
                 'invoices.dueDate',
                 'invoices.remark',
+                'invoices.status',
                 'invoices.invoiceNumber',
                 'invoices.userID',
                 'company.id',
@@ -189,6 +191,7 @@ class InvoiceController extends Controller
         $invoice->payment = $payment;
         $invoice->remark = $remark;
         $invoice->totalAmount = $totalAmount;
+        $invoice->status = "Unpaid";
         $invoice->userID = $userID;
         $invoice->compID = $compID;
         $invoice->invoiceNumber = $this->generateInvoiceNumber();
@@ -210,5 +213,23 @@ class InvoiceController extends Controller
 
         // Redirect or return a response as needed
         return redirect()->back()->with('success', 'Invoice created successfully.');
+    }
+
+    public function viewInvoice($invID)
+    {
+        // Retrieve the invoice data based on the provided invoiceId
+        $invoice = Invoice::findOrFail($invID);
+
+        // Retrieve the items associated with the invoice
+        $items = Item::where('invID', $invID)->get();
+
+
+        $companyData = Company::findOrFail($invoice->compID);
+
+        // Calculate the total amount
+        $totalAmount = $items->sum('amount');
+
+        // Pass the invoice and item data to the view
+        return view('invoice.viewInvoice', compact('invoice', 'companyData', 'items', 'totalAmount'));
     }
 }

@@ -17,14 +17,13 @@ class CreateInvoicesTable extends Migration
             $table->id(); 
             $table->date('issueDate');
             $table->date('dueDate');
-            $table->string('address');
             $table->string('payment');
             $table->string('remark');
+            $table->string('status');
             $table->string('invoiceNumber');
-            $table->double('totalAmount');
+            $table->decimal('totalAmount', 8, 2);
             $table->unsignedBigInteger('userID');
             $table->unsignedBigInteger('compID');
-            $table->unsignedBigInteger('itemID');
             $table->timestamps();
         });
     }

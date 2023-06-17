@@ -92,7 +92,7 @@ Route::controller(App\Http\Controllers\InvoiceController::class)->group(function
     Route::get('/invoice', 'index')->name('invoice.page');
     Route::get('/invoiceForm{id}', 'invoiceForm')->name('invoiceForm');
     Route::delete('/deleteItem/{id}', 'deleteItem')->name('deleteItem');
-    Route::post('/addItem', 'addItem')->name('addItem');
+    Route::get('/viewInvoice/{invoiceId}', 'viewInvoice')->name('viewInvoice');
     Route::post('/invoice/add', 'addInvoice')->name('addInvoice');
     Route::get('/compForm', 'compForm')->name('compForm');
     Route::get('/companyList', 'companyList')->name('companyList');

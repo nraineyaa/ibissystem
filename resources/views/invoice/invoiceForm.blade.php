@@ -90,7 +90,7 @@
                                 </thead>
                                 <tbody>
                                     <tr id="rowTemplate">
-                                        <td><input type="text" class="form-control" name="bil[]" readonly></td>
+                                        <td>1</td>
                                         <td><input type="text" class="form-control" name="itemName[]"></td>
                                         <td><input type="text" class="form-control quantity" name="quantity[]"></td>
                                         <td><input type="text" class="form-control price" name="price[]"></td>
@@ -137,10 +137,34 @@
 
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <script>
     $(document).ready(function() {
-        var rowCounter = 1;
-        var currentYear = new Date().getFullYear();
+        var rowCounter = 1; // Initialize the row counter
+
+        // Function to add a new row when the fa-plus button is clicked
+        $('#formNew').on('click', '.fa-plus', function(e) {
+            e.preventDefault();
+
+            var newRow = $('#rowTemplate').clone(); // Clone the rowTemplate
+            newRow.attr('id', 'row' + rowCounter); // Set a unique id for the new row
+            newRow.find('input').val(''); // Clear the input values in the new row
+
+            rowCounter++; // Increment the row counter
+
+            // Increment the value of the "Bil" column in the new row
+            newRow.find('td:first-child').text(rowCounter);
+
+            // Append the new row to the table body
+            $('#dataTable tbody').append(newRow);
+
+            // Calculate the amount for the new row
+            calculateAmount(newRow);
+            calculateTotalAmount(); // Recalculate the total amount
+
+            generateInvoiceNumber(); // Generate the invoice number
+        });
 
         // Function to calculate the amount
         function calculateAmount(row) {
@@ -168,30 +192,12 @@
         // Function to generate the invoice number
         function generateInvoiceNumber() {
             var prefix = 'INV';
+            var currentYear = new Date().getFullYear();
             var formattedCounter = String(rowCounter).padStart(3, '0');
             var invoiceNumber = prefix + currentYear + formattedCounter;
             $('#invoiceNumber').text(invoiceNumber);
             $('#invoiceNumberInput').val(invoiceNumber);
         }
-
-        // Function to add a new row when the fa-plus button is clicked
-        $('#formNew').on('click', '.fa-plus', function(e) {
-            e.preventDefault();
-
-            var newRow = $('#rowTemplate').clone(); // Clone the rowTemplate
-            newRow.attr('id', 'row' + rowCounter); // Set a unique id for the new row
-            newRow.find('input').val(''); // Clear the input values in the new row
-
-            rowCounter++; // Increment the row counter
-
-            // Increment the value of the "bil" input in the new row
-            newRow.find('#bil').val(rowCounter);
-
-            // Append the new row to the table body
-            $('#dataTable tbody').append(newRow);
-
-            generateInvoiceNumber(); // Generate the invoice number
-        });
 
         // Calculate the amount when the quantity or price changes
         $('#formNew').on('keyup', '.quantity, .price', function() {
@@ -203,75 +209,12 @@
         // Calculate the amount for the first row on page load
         calculateAmount($('#rowTemplate'));
 
-        // Set the initial value of the "bil" input in the first row
-        $('#bil').val(rowCounter);
+        // Set the initial value of the "Bil" column in the first row
+        $('#rowTemplate').find('td:first-child').text(rowCounter);
 
         generateInvoiceNumber(); // Generate the invoice number for the first row on page load
     });
 </script>
 
-<script>
-    function deleteItem(e) {
-        let id = e.getAttribute('data-id');
-        let itemName = e.getAttribute('data-name');
-
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success ml-1',
-                cancelButton: 'btn btn-danger mr-1'
-            },
-            buttonsStyling: false
-        });
-
-        swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            html: "Name: " + itemName + "<br> You won't be able to revert this!",
-            text: "",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
-                if (result.isConfirmed) {
-
-                    $.ajax({
-                        type: 'DELETE',
-                        url: '{{url("/deleteItem")}}/' + id,
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                        },
-                        success: function(data) {
-                            if (data.success) {
-                                swalWithBootstrapButtons.fire(
-                                    'Deleted!',
-                                    'Item has been deleted.',
-                                    "success"
-                                );
-
-                                $("#row" + id).remove(); // you can add name div to remove
-                            }
-
-
-                        }
-                    });
-
-                }
-
-            } else if (
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
-                // swalWithBootstrapButtons.fire(
-                //     'Cancelled',
-                //     'Your imaginary file is safe :)',
-                //     'error'
-                // );
-
-            }
-        });
-
-    }
-</script>
 
 @endsection
