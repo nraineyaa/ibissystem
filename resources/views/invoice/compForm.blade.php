@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div style="float: right;">
-                        <a href="{{ route('maintenance.page') }}"class="btn btn-danger btn-md">Cancel</a>
+                        <a href="{{ route('invoice.page') }}"class="btn btn-danger btn-md">Cancel</a>
                         <button type="submit" id="formNew" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
