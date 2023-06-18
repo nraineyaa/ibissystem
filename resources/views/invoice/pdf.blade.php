@@ -197,7 +197,7 @@
 
         var win = window.open("", "_blank", "width=800,height=1000"); // Open a new window with specified dimensions
         win.document.write("<html><head><title>Invoice</title>");
-        win.document.write("<style background-color: white; >body { margin: 0; }</style>"); // Set body margin to 0 to remove unnecessary white space
+        win.document.write("<style>body { margin: 0; background-color: white; }</style>"); / Set body margin to 0 to remove unnecessary white space
         win.document.write("</head><body>");
         win.document.write(cardContent); // Write the card content to the new window
         win.document.write("</body></html>");
