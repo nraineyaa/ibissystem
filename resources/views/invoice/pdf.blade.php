@@ -192,40 +192,41 @@
     </div>
 </div>
 <script>
-document.getElementById("printBtn").addEventListener("click", function() {
-  var cardContent = document.querySelector(".card.mb-3").outerHTML;
+    document.getElementById("printBtn").addEventListener("click", function() {
+        var cardContent = document.querySelector(".card.mb-3").outerHTML; // Get the outer HTML of the card mb-3 element
 
-  // Open a new window
-  var win = window.open("", "_blank", "width=800,height=600");
+        var win = window.open("", "_blank", "fullscreen=yes"); // Open a new window in fullscreen mode
 
-  // Write the card content to the new window
-  win.document.write("<html><head><title>Popup Window</title></head><body>" + cardContent + "</body></html>");
+        win.document.write("<html><head><title>Popup Window</title>");
+        win.document.write("<style>body { margin: 0; }</style>"); // Set body margin to 0
 
-  // Add CSS styles for A4 size
-  win.document.write('<style>@page { size: A4; margin: 0; }</style>');
-  win.document.write('<style>body { margin: 0; }</style>');
+        // Add CSS styles for printing
+        win.document.write("<style>@media print { .card.mb-3 { background: none !important; background-color: white !important; } }</style>");
 
-  // Add CSS styles
-  var linkTags = document.getElementsByTagName("link");
-  for (var i = 0; i < linkTags.length; i++) {
-    var linkTag = linkTags[i].cloneNode(true);
-    win.document.head.appendChild(linkTag);
-  }
+        win.document.write("</head><body>");
+        win.document.write(cardContent); // Write the card content to the new window
+        win.document.write("</body></html>");
 
-  // Add inline styles
-  var styleTags = document.getElementsByTagName("style");
-  for (var j = 0; j < styleTags.length; j++) {
-    var styleTag = styleTags[j].cloneNode(true);
-    win.document.head.appendChild(styleTag);
-  }
+        // Add CSS styles
+        var linkTags = document.getElementsByTagName("link");
+        for (var i = 0; i < linkTags.length; i++) {
+            var linkTag = linkTags[i].cloneNode(true);
+            win.document.head.appendChild(linkTag);
+        }
 
-  // Hide buttons in the new window
-  win.document.getElementById("cancel").style.display = "none";
-  win.document.getElementById("printBtn").style.display = "none";
+        // Add inline styles
+        var styleTags = document.getElementsByTagName("style");
+        for (var j = 0; j < styleTags.length; j++) {
+            var styleTag = styleTags[j].cloneNode(true);
+            win.document.head.appendChild(styleTag);
+        }
 
-  // Print the window content
-  win.print();
-});
+        // Hide buttons in the new window
+        win.document.getElementById("cancel").style.display = "none";
+        win.document.getElementById("printBtn").style.display = "none";
 
+        win.print(); // Print the window content
+    });
 </script>
+
 @endsection
