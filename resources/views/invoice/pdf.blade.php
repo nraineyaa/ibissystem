@@ -197,7 +197,7 @@
 
         var win = window.open("", "_blank", "fullscreen=yes"); // Open a new window in fullscreen mode
 
-        win.document.write("<html><head><title>Popup Window</title>");
+        win.document.write("<html><head><title>IBIS Invoice</title>");
         win.document.write("<style>body { margin: 0; }</style>"); // Set body margin to 0
 
         // Add CSS styles for printing
