@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="email">Email </label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Email" required>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="ic">Identification No </label>
