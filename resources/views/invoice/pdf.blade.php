@@ -191,25 +191,41 @@
         </div>
     </div>
 </div>
-
 <script>
-    document.getElementById("printBtn").addEventListener("click", function() {
-        var cardContent = document.querySelector(".card.mb-3").outerHTML; // Get the outer HTML of the card mb-3 element
-        var win = window.open("", "_blank", "width=" + screen.availWidth + ",height=" + screen.availHeight); // Open a new window with full screen dimensions
-        win.document.write("<html><head><title>Popup Window</title></head><body style='margin: 0;'>");
-        win.document.write("<div style='width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center;'>");
-        win.document.write(cardContent); // Write the card content to the new window
-        win.document.write("</div></body></html>");
-        // Add CSS styles
-        var linkTags = document.getElementsByTagName("link");
-            var styleTag = styleTags[j].cloneNode(true);
-            win.document.head.appendChild(styleTag);
-        }
-        // Hide the print and back buttons in the new window
-        win.document.getElementById("printBtn").style.display = "none";
-        win.document.getElementById("cancel").style.display = "none";
-    });
+document.getElementById("printBtn").addEventListener("click", function() {
+  var cardContent = document.querySelector(".card.mb-3").outerHTML;
+
+  // Open a new window
+  var win = window.open("", "_blank", "width=800,height=600");
+
+  // Write the card content to the new window
+  win.document.write("<html><head><title>Popup Window</title></head><body>" + cardContent + "</body></html>");
+
+  // Add CSS styles for A4 size
+  win.document.write('<style>@page { size: A4; margin: 0; }</style>');
+  win.document.write('<style>body { margin: 0; }</style>');
+
+  // Add CSS styles
+  var linkTags = document.getElementsByTagName("link");
+  for (var i = 0; i < linkTags.length; i++) {
+    var linkTag = linkTags[i].cloneNode(true);
+    win.document.head.appendChild(linkTag);
+  }
+
+  // Add inline styles
+  var styleTags = document.getElementsByTagName("style");
+  for (var j = 0; j < styleTags.length; j++) {
+    var styleTag = styleTags[j].cloneNode(true);
+    win.document.head.appendChild(styleTag);
+  }
+
+  // Hide buttons in the new window
+  win.document.getElementById("cancel").style.display = "none";
+  win.document.getElementById("printBtn").style.display = "none";
+
+  // Print the window content
+  win.print();
+});
+
 </script>
-
-
 @endsection
