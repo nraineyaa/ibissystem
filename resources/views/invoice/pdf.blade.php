@@ -217,6 +217,9 @@
             win.document.head.appendChild(styleTag);
         }
     });
+
+    win.document.getElementById("printBtn").style.display = "none";
+    win.document.getElementById("cancel").style.display = "none";
 </script>
 
 @endsection
