@@ -195,9 +195,13 @@
     document.getElementById("printBtn").addEventListener("click", function() {
         var cardContent = document.querySelector(".card.mb-3").outerHTML; // Get the outer HTML of the card mb-3 element
 
-        var win = window.open("", "_blank", "width=800,height=1000"); // Open a new window with specified dimensions
-        win.document.write("<html><head><title>Invoice</title>");
-        win.document.write("<style>body { margin: 0; background-color: white; }</style>");
+        var screenWidth = window.screen.availWidth; // Get the available screen width
+        var screenHeight = window.screen.availHeight; // Get the available screen height
+
+        var win = window.open("", "_blank", "width=" + screenWidth + ",height=" + screenHeight); // Open a new window with the screen dimensions
+        win.document.write("<html><head><title>Popup Window</title>");
+        win.document.write("<style>body { margin: 0; background-color: white; }</style>"); // Set body margin to 0 and background color to white
+        win.document.write("</head><body>");
         win.document.write(cardContent); // Write the card content to the new window
         win.document.write("</body></html>");
 
@@ -220,6 +224,7 @@
         win.document.getElementById("printBtn").style.display = "none";
     });
 </script>
+
 
 
 @endsection
