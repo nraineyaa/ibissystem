@@ -48,34 +48,21 @@
     <div class="card mb-3">
         <br>
         <div class="card-header pb-2">
-    <div class="invoice-text">
-        <h2>INVOICE</h2>
-        <div>
-            <h4 id="invoiceNumber" style="color:blue;">#{{ $invoice->invoiceNumber }}</h4>
-            <div class="status-box" style="width:150px;">
-                <span>STATUS:</span>
-                <div class="status-value">
-                    @if($invoice->status == 'Unpaid')
-                    <h4 style="color:red;">{{ $invoice->status }}</h4>
-                    @else
-                    <h4 style="color:green;">{{ $invoice->status }}</h4>
-                    @endif
+            <div class="invoice-text">
+                <h2>INVOICE</h2>
+                <h4 id="invoiceNumber" style="color:blue;">#{{ $invoice->invoiceNumber }}</h4>
+            </div>
+
+            <div class="header-content">
+                <img id="main-logo" class="d-inline-block align-center mr-1" style="max-width: 100px;" src="{{ asset('frontend') }}/images/logoibis.png" alt="petakom logo">
+                <div class="address-text">
+                    <h3>IBI Services Sdn Bhd</h3>
+                    <p>B-2-1 Ampang Tudor Court,Taman Rasmi Jaya,Jalan Dedap</p>
+                    <p>68000 Ampang, Selangor.</p>
+                    <p>Email: ibishq@ibis.com.my Phone Number: 09-773696</p>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="header-content">
-        <img id="main-logo" class="d-inline-block align-center mr-1" style="max-width: 100px;" src="{{ asset('frontend') }}/images/logoibis.png" alt="petakom logo">
-        <div class="address-text">
-            <h3>IBI Services Sdn Bhd</h3>
-            <p>B-2-1 Ampang Tudor Court,Taman Rasmi Jaya,Jalan Dedap</p>
-            <p>68000 Ampang, Selangor.</p>
-            <p>Email: ibishq@ibis.com.my Phone Number: 09-773696</p>
-        </div>
-    </div>
-</div>
-
         <hr>
         <div class="card-body">
             <div class="row">
@@ -100,7 +87,18 @@
                                 <span readonly>{!! $implodedInfo !!}</span>
                             </div>
                         </div>
-                        
+                        <div class="col-md-6">
+                            <div class="status-box" style="width:150px; float: right;">
+                                <span id="invoiceNumber">STATUS :</span>
+                                <div class="status-value">
+                                    @if($invoice->status == 'Unpaid')
+                                    <h4 style="color:red;">{{ $invoice->status }}</h4>
+                                    @else
+                                    <h4 style="color:green;">{{ $invoice->status }}</h4>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <input type="hidden" name="compID" value="{{ $companyData->id }}">
 
@@ -194,40 +192,41 @@
     </div>
 </div>
 <script>
-    document.getElementById("printBtn").addEventListener("click", function() {
-        var cardContent = document.querySelector(".card.mb-3").outerHTML;
+document.getElementById("printBtn").addEventListener("click", function() {
+  var cardContent = document.querySelector(".card.mb-3").outerHTML;
 
-        // Open a new window
-        var win = window.open("", "_blank", "width=800,height=600");
+  // Open a new window
+  var win = window.open("", "_blank");
 
-        // Write the card content to the new window
-        win.document.write("<html><head><title>Popup Window</title></head><body>" + cardContent + "</body></html>");
+  // Write the card content to the new window
+  win.document.write("<html><head><title>Popup Window</title></head><body>" + cardContent + "</body></html>");
 
-        // Add CSS styles for A4 size
-        win.document.write('<style>@page { size: A4; }</style>');
-        win.document.write('<style>body { margin: 0; }</style>');
+  // Add CSS styles for A4 size
+  win.document.write('<style>@page { size: A4; }</style>');
+  win.document.write('<style>body { margin: 0; }</style>');
 
-        // Add CSS styles
-        var linkTags = document.getElementsByTagName("link");
-        for (var i = 0; i < linkTags.length; i++) {
-            var linkTag = linkTags[i].cloneNode(true);
-            win.document.head.appendChild(linkTag);
-        }
+  // Add CSS styles
+  var linkTags = document.getElementsByTagName("link");
+  for (var i = 0; i < linkTags.length; i++) {
+    var linkTag = linkTags[i].cloneNode(true);
+    win.document.head.appendChild(linkTag);
+  }
 
-        // Add inline styles
-        var styleTags = document.getElementsByTagName("style");
-        for (var j = 0; j < styleTags.length; j++) {
-            var styleTag = styleTags[j].cloneNode(true);
-            win.document.head.appendChild(styleTag);
-        }
+  // Add inline styles
+  var styleTags = document.getElementsByTagName("style");
+  for (var j = 0; j < styleTags.length; j++) {
+    var styleTag = styleTags[j].cloneNode(true);
+    win.document.head.appendChild(styleTag);
+  }
 
-        // Hide buttons in the new window
-        win.document.getElementById("cancel").style.display = "none";
-        win.document.getElementById("printBtn").style.display = "none";
+  // Hide buttons in the new window
+  win.document.getElementById("cancel").style.display = "none";
+  win.document.getElementById("printBtn").style.display = "none";
 
-        // Print the window content
-        win.print();
-    });
+  // Print the window content
+  win.print();
+});
+
 </script>
 
 @endsection
