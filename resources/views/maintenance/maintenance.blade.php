@@ -97,7 +97,7 @@
                                         @if( auth()->user()->category == "Supervisor")
                                         <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
                                         <a href="{{ route('editJob', $data->id) }}" class="btn btn-custom"><i class="material-icons" style="color:red;">edit_square</i></a>
-                                        <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons" style="color:black;">email</i></a>
+                                        <a href="{{ route('reporttNoti', $data->id) }}" class="btn btn-custom"><i class="material-icons" style="color:black;">email</i></a>
                                         @else
                                         <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
                                         @endif
@@ -175,7 +175,6 @@
                                     <div>
                                         @if(auth()->user()->category == "Worker")
                                         <a href="{{ route('editReport', $report->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
-                                        <a href="{{ route('jobInfo', $report->id) }}" class="btn btn-custom"><i class="material-icons" style="color:black;">email</i></a>
                                         @else
                                         <center><a href="{{ route('reportInfo', $report->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a></center>
                                         @endif

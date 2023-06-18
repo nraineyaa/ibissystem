@@ -19,6 +19,11 @@
     .invoice-text {
         float: right;
     }
+
+    .company-name {
+        text-align: left;
+        margin-bottom: 0;
+    }
 </style>
 <div class="card mb-3">
     <br>
@@ -50,27 +55,28 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="clientAdd">Bill To</label>
-                            <textarea style="height: 115px;" class="form-control" id="address" name="address" readonly>
-                                    <?php
-                                    $companyInfo = array(
-                                        'compName' => $companyData->compName,
-                                        'address' => $companyData->address,
-                                        'compPhone' => 'Phone Number : ' . $companyData->compPhone,
-                                        'compEmail' => 'Email: ' . $companyData->compEmail
-                                    );
+                            <textarea style="height: 115px; text-align: start;" class="form-control" id="address" name="address" readonly>
+                                <?php
+                                $companyInfo = array(
+                                    'compName' => $companyData->compName,
+                                    'address' => $companyData->address,
+                                    'compPhone' => 'Phone Number : ' . $companyData->compPhone,
+                                    'compEmail' => 'Email: ' . $companyData->compEmail
+                                );
 
-                                    $implodedInfo = '';
+                                $implodedInfo = '';
 
-                                    foreach ($companyInfo as $line) {
-                                        if (!empty($line)) {
-                                            $implodedInfo .= $line . "\n";
-                                        }
+                                foreach ($companyInfo as $line) {
+                                    if (!empty($line)) {
+                                        $implodedInfo .= $line . "\n";
                                     }
+                                }
 
-                                    echo $implodedInfo;
-                                    ?>
-                                    </textarea>
+                                echo $implodedInfo;
+                                ?>
+                                </textarea>
                         </div>
+
                     </div>
 
                     <input type="hidden" name="compID" value="{{ $companyData->id }}">
@@ -83,8 +89,9 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="date">Due Date</label>
-                            <input type="date" class="form-control" id="dueDate" name="dueDate" required>
+                            <input type="date" class="form-control" id="dueDate" name="dueDate" required><div style="color: red;" id="remainingTime"></div>
                         </div>
+                
                     </div>
 
                     <div class="row">
@@ -105,9 +112,9 @@
                                 <tbody>
                                     <tr id="rowTemplate">
                                         <td>1</td>
-                                        <td><input type="text" class="form-control" name="itemName[]"></td>
-                                        <td><input type="text" class="form-control quantity" name="quantity[]"></td>
-                                        <td><input type="text" class="form-control price" name="price[]"></td>
+                                        <td><input type="text" class="form-control" name="itemName[]" required></td>
+                                        <td><input type="text" class="form-control quantity" name="quantity[]" required></td>
+                                        <td><input type="text" class="form-control price" name="price[]" required></td>
                                         <td><input type="text" class="form-control amount" name="amount[]" readonly></td>
                                         <td>
                                             <div class="btn-group" style="float: right;">
@@ -129,7 +136,7 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="clientAdd">Payment</label>
-                            <select class="form-control" name="payment" id="payment">
+                            <select class="form-control" name="payment" id="payment" required>
                                 <option value="select">Please Select</option>
                                 <option value="FPX">FPX</option>
                                 <option value="Cash">Cash</option>
@@ -152,7 +159,17 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var today = new Date();
+        var month = String(today.getMonth() + 1).padStart(2, '0');
+        var day = String(today.getDate()).padStart(2, '0');
+        var year = today.getFullYear();
+        var formattedDate = year + '-' + month + '-' + day;
+        document.getElementById("issueDate").value = formattedDate;
+        document.getElementById("issueDate").setAttribute("readonly", "true");
+    });
+</script>
 <script>
     $(document).ready(function() {
         var rowCounter = 1; // Initialize the row counter
@@ -229,6 +246,30 @@
         generateInvoiceNumber(); // Generate the invoice number for the first row on page load
     });
 </script>
+
+<script>
+        const issueDateInput = document.getElementById("issueDate");
+        const dueDateInput = document.getElementById("dueDate");
+        const remainingTimeDiv = document.getElementById("remainingTime");
+
+        // Event listener for when either issue date or due date is changed
+        issueDateInput.addEventListener("change", calculateRemainingTime);
+        dueDateInput.addEventListener("change", calculateRemainingTime);
+
+        function calculateRemainingTime() {
+            const issueDate = new Date(issueDateInput.value);
+            const dueDate = new Date(dueDateInput.value);
+
+            // Calculate the remaining time in milliseconds
+            const remainingTime = dueDate - issueDate;
+
+            // Convert the remaining time to days
+            const remainingDays = Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
+
+            // Update the remainingTimeDiv with the result
+            remainingTimeDiv.textContent = `Remaining time: ${remainingDays} days`;
+        }
+    </script>
 
 
 @endsection

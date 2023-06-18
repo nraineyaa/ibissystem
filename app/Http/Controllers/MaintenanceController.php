@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailNoti;
+use App\Mail\MailNotiJob;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +13,7 @@ use App\Models\Reports;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Mail;
 
 class MaintenanceController extends Controller
 {
@@ -60,24 +62,38 @@ class MaintenanceController extends Controller
                 ->orderBy('jobTitle', 'asc')
                 ->get();
         }
+        if ($currUser == 'Worker') {
+            $reportList = DB::table('report')
+                ->where('report.userID', '=', $currID)
+                ->select(
 
-        $reportList = DB::table('report')
-            ->where('report.userID', '=', $currID)
-            ->select(
+                    'id',
+                    'reportTitle',
+                    'date',
+                    'filepath',
+                    'remark',
+                    'status',
+                    'userID',
 
-                'id',
-                'reportTitle',
-                'date',
-                'filepath',
-                'remark',
-                'status',
-                'userID',
+                )
+                ->orderBy('reportTitle', 'asc')
+                ->get();
+        } else {
+            $reportList = DB::table('report')
+                ->select(
 
-            )
-            ->orderBy('reportTitle', 'asc')
-            ->get();
+                    'id',
+                    'reportTitle',
+                    'date',
+                    'filepath',
+                    'remark',
+                    'status',
+                    'userID',
 
-
+                )
+                ->orderBy('reportTitle', 'asc')
+                ->get();
+        }
 
 
         return view('maintenance.maintenance', compact('jobList', 'reportList'));
@@ -357,5 +373,11 @@ class MaintenanceController extends Controller
             )->first();
 
         return view('maintenance.reportInfo', compact('report',));
+    }
+
+    public function reporttNoti(Request $request)
+    {
+        Mail::to('nurainaleeyacz@gmail.com')->send(new MailNoti());
+        return back()->with('success', 'Email successfully Sent');
     }
 }

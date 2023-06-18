@@ -207,7 +207,7 @@ document.getElementById("printBtn").addEventListener("click", function() {
 
   // Add CSS styles
   var linkTags = document.getElementsByTagName("link");
-  for (var i = 0; i < linkTags.length; i++) {
+  for (var i = 0; i < linkTags.length; i++) {b
     var linkTag = linkTags[i].cloneNode(true);
     win.document.head.appendChild(linkTag);
   }

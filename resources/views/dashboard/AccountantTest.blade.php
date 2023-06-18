@@ -14,7 +14,7 @@ $tooltipClients = '';
 <!-- Page Header -->
 <div class="page-header row no-gutters pb-4">
     <div class="col-12 col-sm-4 text-center text-sm-left mb-0 d-flex">
-        <h1 class="page-title ml-3">Supervisor Overview</h1>
+        <h1 class="page-title ml-3">Accountant Overview</h1>
     </div>
 </div>
 
@@ -22,9 +22,9 @@ $tooltipClients = '';
 <span id="team2" hidden>{{$team2 ?? 0}}</span>
 <span id="team3" hidden>{{$team3 ?? 0}}</span>
 
-<span id="Available" hidden>{{$available ?? 0}}</span>
-<span id="On-Site" hidden>{{$onsite ?? 0}}</span>
-<span id="On-Leave" hidden>{{$onleave ?? 0}}</span>
+<span id="successful" hidden>{{$successful ?? 0}}</span>
+<span id="reviewed" hidden>{{$reviewed ?? 0}}</span>
+<span id="pending" hidden>{{$pending ?? 0}}</span>
 <span id="quotationAccept" hidden>{{$quotationAccept ?? 0}}</span>
 
 <div class="row">
@@ -35,10 +35,10 @@ $tooltipClients = '';
 
                     <div class="stats-small__data text-center">
                         <div class="d-flex ">
-                            <span class="stats-small__label text-uppercase mt-auto mb-auto">Total Job Post</span>
+                            <span class="stats-small__label text-uppercase mt-auto mb-auto">Total Clients</span>
                         </div>
 
-                        <h6 class="stats-small__value count my-3">{{$totalJob}}</h6>
+                        <h6 class="stats-small__value count my-3">{{$totalComp}}</h6>
                     </div>
                 </div>
                 <canvas height="120" class="blog-overview-stats-small-1"></canvas>
@@ -51,11 +51,11 @@ $tooltipClients = '';
                 <div class="d-flex flex-column m-auto">
                     <div class="stats-small__data text-center">
                         <div class="d-flex ">
-                            <span class="stats-small__label text-uppercase mt-auto mb-auto">Total Job Accepted</span>
+                            <span class="stats-small__label text-uppercase mt-auto mb-auto">Total Invoice</span>
                         </div>
 
 
-                        <h6 class="stats-small__value count my-3">{{$totalJobA}}</h6>
+                        <h6 class="stats-small__value count my-3">{{$totalIPJS}}</h6>
                     </div>
                 </div>
                 <canvas height="120" class="blog-overview-stats-small-3"></canvas>
@@ -69,9 +69,9 @@ $tooltipClients = '';
                     <div class="stats-small__data text-center">
 
                         <div class="d-flex ">
-                            <span class="stats-small__label text-uppercase mt-auto mb-auto">Report Submitted</span>
+                            <span class="stats-small__label text-uppercase mt-auto mb-auto">Completed (Unpaid)</span>
                         </div>
-                        <h6 class="stats-small__value count my-3">{{$totalReportSubmit}}</h6>
+                        <h6 class="stats-small__value count my-3">{{$totalCPJS}}</h6>
                     </div>
                 </div>
                 <canvas height="120" class="blog-overview-stats-small-4"></canvas>
@@ -84,10 +84,10 @@ $tooltipClients = '';
                 <div class="d-flex flex-column m-auto">
                     <div class="stats-small__data text-center">
                         <div class="d-flex ">
-                            <span class="stats-small__label text-uppercase mt-auto mb-auto">Total Claim for {{$currentMonth}} </span>
+                            <span class="stats-small__label text-uppercase mt-auto mb-auto">Completed (Fully Paid)</span>
                         </div>
 
-                        <h6 class="stats-small__value count my-3">{{$totalClaims}}</h6>
+                        <h6 class="stats-small__value count my-3">{{$totalFPJS}}</h6>
                     </div>
                 </div>
                 <canvas height="120" class="blog-overview-stats-small-5"></canvas>
@@ -101,7 +101,7 @@ $tooltipClients = '';
     <div class="col-md-4 col-sm-12 mb-4">
         <div class="card card-small h-100">
             <div class="card-header border-bottom">
-                <h6 class="m-0">Attendance Report</h6>
+                <h6 class="m-0">Claim Status</h6>
             </div>
             <div class="card-body d-flex py-0">
                 <canvas height="220" class="m-auto" id="quotationPie"></canvas>
@@ -114,37 +114,55 @@ $tooltipClients = '';
     <div class="col-md-8 col-sm-12 mb-4">
         <div class="card card-small h-100">
             <div class="card-header border-bottom">
-                <h6 class="m-0">General Info</h6>
+                <h6 class="m-0">Financial Details</h6>
             </div>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-sm" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Worker Name</th>
-                                <th>Location</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($jobList as $data)
-                            <tr id="row{{$data->id}}">
-                                <td>{{ $data->date }}</td>
-                                <td>{{ $data->workersName }}</td>
-                                <td>{{ $data->location }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+            <div class="row" style="text-align: center; height:50%">
+
+                <div class="col-md-6 col-sm-12 m-auto" style="text-align: center; height:auto">
+                    <a data-toggle="" title=""><i class="fas fa-info-circle info-color"></i></a>
+                    &nbsp;
+                    <span class="stats-small__label text-uppercase" style="font-weight: bold; font-size:15px; color:blue; ">Total Claim</span>
+                    <h6 class="stats-small__value count my-3" style="font-weight: 600px; font-size:40px">RM {{$totalExpiredNM}}</h6>
+
+
+                </div>
+
+                <div class="col-md-6 col-sm-12 m-auto" style="text-align: center;">
+                    <a data-toggle="" title=""><i class="fas fa-info-circle info-color"></i></a>
+                    &nbsp;
+                    <span class="stats-small__label text-uppercase" style="font-weight: bold; font-size:15px; color:blue; ">Total Invoice in {{now()->year}}</span>
+                    <h6 class="stats-small__value count my-3" style="font-weight: 600px; font-size:40px">RM {{$totalExpiredYear}}</h6>
+
+
+                </div>
+
+            </div>
+
+            <div class="row" style="text-align: center; height:50%">
+
+                <div class="col-md-6 col-sm-12 m-auto" style="text-align: center;">
+                    <a data-toggle="tooltip" title=""><i class="fas fa-info-circle info-color"></i></a>
+                    &nbsp;
+                    <span class="stats-small__label text-uppercase" style="font-weight: 600px; font-size:15px; color:green; ">Total Invoice(Paid)</span>
+                    <h6 class="stats-small__value count my-3" style="font-weight: 600px; font-size:40px">RM {{$totalRegisterYear}}</h6>
+
+
+                </div>
+                <div class="col-md-6 col-sm-12 m-auto" style="text-align: center;">
+                    <a data-toggle="tooltip" title=""><i class="fas fa-info-circle info-color"></i></a>
+                    &nbsp;
+                    <span class="stats-small__label text-uppercase" style="font-weight: 600px; font-size:15px; color:red; ">Total Invoice(Unpaid)</span>
+                    <h6 class="stats-small__value count my-3" style="font-weight: 600px; font-size:40px">RM {{$totalExpired14}}</h6>
                 </div>
             </div>
         </div>
     </div>
 
+
     <!-- End New Draft Component -->
     <!-- Discussions Component -->
-
+    
 </div>
 
 
@@ -209,16 +227,16 @@ $tooltipClients = '';
         });
 
         //quotation pie chart
-        var available = document.getElementById("Available").innerHTML;
-        var onsite = document.getElementById("On-Site").innerHTML;
-        var onleave = document.getElementById("On-Leave").innerHTML;
+        var successful = document.getElementById("successful").innerHTML;
+        var reviewed = document.getElementById("reviewed").innerHTML;
+        var pending = document.getElementById("pending").innerHTML;
 
         $(document).ready(function() {
             // Data
             var ubdData = {
                 datasets: [{
                     hoverBorderColor: '#ffffff',
-                    data: [available, onsite, onleave],
+                    data: [successful, reviewed, pending],
                     backgroundColor: [
                         '#ffb400',
                         '#30bfc9',
@@ -228,7 +246,7 @@ $tooltipClients = '';
                         color: '#FFCE56'
                     }
                 }],
-                labels: ["Available", "On-Site", "On-Leave"]
+                labels: ["Successful", "Reviewed", "Pending"]
             };
 
             // Options

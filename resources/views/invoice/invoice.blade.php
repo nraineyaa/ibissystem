@@ -109,17 +109,20 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable({
-                "order": [
-                    [0, "asc"]
-                ],
-                "language": {
-                    search: '<i class="fa fa-search" aria-hidden="true"></i>',
-                    searchPlaceholder: 'Search Invoice'
-                }
-            });
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            "order": [
+                [0, "asc"]
+            ],
+            "language": {
+                search: '<i class="fa fa-search" aria-hidden="true"></i>',
+                searchPlaceholder: 'Search Invoice'
+            }
         });
-    </script>
-    @endsection
+    });
+</script>
+
+@endsection
