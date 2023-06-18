@@ -191,7 +191,6 @@
         </div>
     </div>
 </div>
-
 <script>
     document.getElementById("printBtn").addEventListener("click", function() {
         var cardContent = document.querySelector(".card.mb-3").outerHTML; // Get the outer HTML of the card mb-3 element
@@ -216,10 +215,12 @@
             var styleTag = styleTags[j].cloneNode(true);
             win.document.head.appendChild(styleTag);
         }
-    });
 
-    win.document.getElementById("printBtn").style.display = "none";
-    win.document.getElementById("cancel").style.display = "none";
+        // Hide buttons in the new window
+        win.document.getElementById("cancel").style.display = "none";
+        win.document.getElementById("printBtn").style.display = "none";
+    });
 </script>
+
 
 @endsection
