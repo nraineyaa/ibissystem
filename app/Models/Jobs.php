@@ -9,6 +9,7 @@ class Jobs extends Model
 {
     use HasFactory;
 
+    protected $table = 'jobs'; //table to store activity data
     protected $fillable = [
         'jobTitle',
         'date',

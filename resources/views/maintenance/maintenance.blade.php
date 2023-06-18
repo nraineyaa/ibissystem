@@ -90,18 +90,26 @@
                                     <center><span class="badge badge-pill badge-success" style="width: 100px;">{{ $data->status }}</span></center>
                                     @endif
                                 </td>
+
+                                @if( auth()->user()->category == "Supervisor")
                                 <td style="width: 200px;">
                                     <div>
-
                                         @if( auth()->user()->category == "Supervisor")
                                         <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
                                         <a href="{{ route('editJob', $data->id) }}" class="btn btn-custom"><i class="material-icons" style="color:red;">edit_square</i></a>
                                         <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons" style="color:black;">email</i></a>
                                         @else
-                                        <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-lg"><i class="material-icons">visibility</i></a>
+                                        <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
                                         @endif
                                     </div>
                                 </td>
+                                @else
+                                <td style="width: 100px;">
+                                    <div>
+                                        <a href="{{ route('jobInfo', $data->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
+                                    </div>
+                                </td>
+                                @endif
 
                             </tr>
                             @endforeach
@@ -131,11 +139,19 @@
                 </div>
                 <div class="table-container">
                     <table class="table table-bordered table-sm" id="datReport">
+                        <colgroup>
+                            <col style="width: 100px;">
+                            <col style="width: 150px;">
+                            <col style="width: 200px;">
+                            <col style="width: 150px;">
+                            <col style="width: 100px;">
+                            <col style="width: 100px;">
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th>Date</th>
                                 <th>Report Title</th>
-                                <th>file</th>
+                                <th>File</th>
                                 <th>Remark</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -144,10 +160,9 @@
                         <tbody>
                             @foreach($reportList as $report)
                             <tr id="row{{$report->id}}">
-
                                 <td>{{ $report->date }}</td>
                                 <td>{{ $report->reportTitle }}</td>
-                                <td>{{ $report->file }}</td>
+                                <td>{{ $report->filepath }}</td>
                                 <td>{{ $report->remark }}</td>
                                 <td>
                                     @if($report->status == "Pending")
@@ -158,20 +173,19 @@
                                 </td>
                                 <td style="width: 100px;">
                                     <div>
-                                        @if( auth()->user()->category == "Worker")
-                                        <a href="{{ route('editStatus', $report->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
+                                        @if(auth()->user()->category == "Worker")
+                                        <a href="{{ route('editReport', $report->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
                                         <a href="{{ route('jobInfo', $report->id) }}" class="btn btn-custom"><i class="material-icons" style="color:black;">email</i></a>
                                         @else
-                                        <center><a href="{{ route('editStatus', $report->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a>
-                                        </center>
+                                        <center><a href="{{ route('reportInfo', $report->id) }}" class="btn btn-custom"><i class="material-icons">visibility</i></a></center>
                                         @endif
                                     </div>
                                 </td>
-
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+
                 </div>
 
 

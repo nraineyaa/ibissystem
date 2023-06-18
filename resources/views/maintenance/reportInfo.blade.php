@@ -7,7 +7,6 @@
     }
 
     .report-text {
-        float: right;
     }
 </style>
 <div class="card mb-3">
@@ -37,8 +36,8 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label for="docs">Document</label>
-                            <input type="file" class="form-control" id="file" name="file" value="{{$report->file}}" readonly>
+                            <iframe src="/{{$report->filePath}}" style="width: 455px; height: 405px; border-style: dashed"></iframe>
+
                         </div>
                     </div>
                     <div class="row">
@@ -48,8 +47,14 @@
                         </div>
                     </div>
                     <div style="float: right;">
+                    
+                    @if($report->status == 'Pending')
                         <a href="{{ route('maintenance.page') }}"class="btn btn-danger btn-md">Cancel</a>
-                        <button type="submit" id="formNew" class="btn btn-primary">Submit</button>
+                        <button type="submit" id="formNew" class="btn btn-success">Checked</button>
+                        @else
+                        
+                        <a href="{{ route('maintenance.page') }}"class="btn btn-dark btn-md">back</a>
+                        @endif
                     </div>
                 </form>
             </div>

@@ -20,33 +20,53 @@ class MaintenanceController extends Controller
 
 
         $currID = Auth::user()->id;
-
         $currUser = Auth::user()->category;
-        $jobList = DB::table('jobs')
-            ->where('jobs.userID', '=', $currID)
-            ->select(
+        $currName = Auth::user()->name;
 
-                'id',
-                'jobTitle',
-                'date',
-                'location',
-                'jobDesc',
-                'userID',
-                'workersName',
-                'status',
+        if ($currUser == 'Worker') {
+            $jobList = DB::table('jobs')
+                ->where('jobs.workersName', '=', $currName)
+                ->select(
 
-            )
-            ->orderBy('jobTitle', 'asc')
-            ->get();
+                    'id',
+                    'jobTitle',
+                    'date',
+                    'location',
+                    'jobDesc',
+                    'userID',
+                    'workersName',
+                    'status',
 
+                )
+                ->orderBy('jobTitle', 'asc')
+                ->get();
+        } else {
+            $jobList = DB::table('jobs')
+                ->where('jobs.userID', '=', $currID)
+                ->select(
+
+                    'id',
+                    'jobTitle',
+                    'date',
+                    'location',
+                    'jobDesc',
+                    'userID',
+                    'workersName',
+                    'status',
+
+                )
+                ->orderBy('jobTitle', 'asc')
+                ->get();
+        }
 
         $reportList = DB::table('report')
+        ->where('report.userID', '=', $currID)
             ->select(
 
                 'id',
                 'reportTitle',
                 'date',
-                'file',
+                'filepath',
                 'remark',
                 'status',
                 'userID',
@@ -54,6 +74,7 @@ class MaintenanceController extends Controller
             )
             ->orderBy('reportTitle', 'asc')
             ->get();
+        
 
 
 
@@ -68,9 +89,10 @@ class MaintenanceController extends Controller
 
     public function jobForm(Request $request)
     {
-        $workers =  User::join('attendance', 'attendance.userID', '=', 'users.id')
+        $workers = User::join('attendance', 'attendance.userID', '=', 'users.id')
             ->where('users.category', 'Worker')
             ->where('attendance.status', 'Available')
+            ->groupBy('users.name') // Group by worker names
             ->pluck('users.name')
             ->all();
 
@@ -113,12 +135,12 @@ class MaintenanceController extends Controller
     public function addReport(Request $request)
     {
         $currUser = Auth::user()->id;
-        $request->validate([
-            'file' => 'required|mimes:pdf,xlx,csv|max:2048',
-        ]);
+        $document = $request->file('document');
 
-        $file = time() . '.' . $request->file->extension();
-        $request->file->move(public_path('uploads'), $file);
+        
+        $filepath = time() . '.' . $document->getClientOriginalExtension();
+        $request->document->move(public_path('uploads'),  $filepath);
+
 
         $reportTitle = $request->input('reportTitle');
         $date = $request->input('date');
@@ -129,7 +151,7 @@ class MaintenanceController extends Controller
         $data = array(
             'reportTitle' => $reportTitle,
             'date' => $date,
-            'filePath' => 'uploads/' . $file,
+            'filePath' => 'uploads/' . $filepath,
             'remark' => $remark,
             'status' => 'Pending',
             'userID' => $userID,
@@ -137,8 +159,9 @@ class MaintenanceController extends Controller
 
         DB::table('report')->insert($data);
 
-        return back()->with('success', 'Job successfully added');
+        return back()->with('success', 'Report successfully added');
     }
+
 
 
     public function jobInfo($id)
@@ -243,7 +266,6 @@ class MaintenanceController extends Controller
                 'report.reportTitle',
                 'report.filePath',
                 'report.date',
-                'report.file',
                 'report.remark',
                 'report.userID',
                 'users.id',
@@ -264,7 +286,7 @@ class MaintenanceController extends Controller
 
                 'reportTitle' => $request->reportTitle,
                 'date' => $request->date,
-                'file' => $request->file,
+                'filePath' => $request->filePath,
                 'remark' => $request->remark,
                 'status' => 'Pending',
             ]);
@@ -301,40 +323,33 @@ class MaintenanceController extends Controller
 
         Reports::where('id', '=', $request->id)
             ->update([
-
-                'jobTitle' => $request->jobTitle,
-                'date' => $request->date,
-                'location' => $request->location,
-                'jobDesc' => $request->jobDesc,
-                'workersName' => $request->workersName,
                 'status' => 'Checked',
             ]);
 
-        return back()->with('success', 'Report info is successfully updated!');
+        return back()->with('success', 'Status is successfully updated!');
     }
-    public function getFile($id)
-    {
-        $report = Reports::findOrFail($id);
-        
-        // Get the file path from the report
-        $filePath = $report->filePath;
-        
-        // Perform any necessary operations with the file path
-        
-        // Return the file
-        return response()->download(storage_path('app/public/' . $filePath));
-    }
-    
 
-    public function download($filePath)
+    public function reportInfo(Request $request, $id)
     {
-        $filePath = 'uploads/' . $filePath;
-        $file = storage_path('app/public/' . $filePath);
 
-        if (file_exists($file)) {
-            return response()->download($file);
-        } else {
-            abort(404, 'File not found.');
-        }
+        $report = DB::table('report')
+            ->join('users', 'report.userID', '=', 'users.id')
+            ->where('report.id', '=', $id)
+            ->select(
+                'report.id as reportID',
+                'report.reportTitle',
+                'report.date',
+                'report.filePath',
+                'report.remark',
+                'report.status',
+                'report.userID',
+                'users.id',
+                'users.name',
+                'users.category',
+                'users.accNo',
+                'users.bankType',
+            )->first();
+
+        return view('maintenance.reportInfo', compact('report', ));
     }
 }

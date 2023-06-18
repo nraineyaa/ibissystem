@@ -1,5 +1,6 @@
 @extends('layouts.main')
 
+
 @section('sideNav')
 
 <div class="container-fluid">

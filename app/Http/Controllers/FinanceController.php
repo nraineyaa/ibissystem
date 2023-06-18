@@ -18,23 +18,54 @@ class FinanceController extends Controller
 
         $currUser = Auth::user()->category;
 
+        $currName = Auth::user()->name;
+
         $supervisor = User::where('category', '=', "Supervisor")->pluck('name')->all();
 
-        $pendingCount = DB::table('claims')
-            ->where('claims.status', '=', "Pending")
-            ->where('claims.userID', '=', $currID)
-            ->count();
+        if ($currUser == 'Accountant') {
+            $pendingCount = DB::table('claims')
+                ->where('claims.status', '=', "Pending")
+                ->count();
 
+            $reviewedCount = DB::table('claims')
+                ->where('status', '=', "Reviewed")
+                ->count();
 
-        $reviewedCount = DB::table('claims')
-            ->where('status', '=', "Reviewed")
-            ->where('claims.userID', '=', $currID)
-            ->count();
+            $successfulCount = DB::table('claims')
+                ->where('status', '=', "Successful")
+                ->count();
+        } elseif ($currUser == 'Supervisor') {
 
-        $successfulCount = DB::table('claims')
-            ->where('status', '=', "Successful")
-            ->where('claims.userID', '=', $currID)
-            ->count();
+            $pendingCount = DB::table('claims')
+                ->where('claims.status', '=', "Pending")
+                ->where('svName', '=',  $currName)
+                ->count();
+
+            $reviewedCount = DB::table('claims')
+                ->where('status', '=', "Reviewed")
+                ->where('svName', '=',  $currName)
+                ->count();
+
+            $successfulCount = DB::table('claims')
+                ->where('status', '=', "Reviewed")
+                ->where('svName', '=',  $currName)
+                ->count();
+        } else {
+            $pendingCount = DB::table('claims')
+                ->where('claims.status', '=', "Pending")
+                ->where('claims.userID', '=',  $currID)
+                ->count();
+
+            $reviewedCount = DB::table('claims')
+                ->where('status', '=', "Reviewed")
+                ->where('claims.userID', '=',  $currID)
+                ->count();
+
+            $successfulCount = DB::table('claims')
+                ->where('status', '=', "Successful")
+                ->where('claims.userID', '=',  $currID)
+                ->count();
+        }
 
         if ($currUser == 'Human Resource') {
             $userRecord = DB::table('claims')
@@ -65,6 +96,21 @@ class FinanceController extends Controller
                     'userID',
                 )
                 ->whereIn('status', ['Pending', 'Reviewed'])
+                ->where('svName', '=',  $currName)
+                ->orderBy('svName', 'asc')
+                ->get();
+        } elseif ($currUser == 'Accountant') {
+            $userRecord = DB::table('claims')
+                ->select(
+                    'id',
+                    'claimType',
+                    'date',
+                    'amount',
+                    'svName',
+                    'status',
+                    'remark',
+                    'userID',
+                )
                 ->orderBy('claimType', 'asc')
                 ->get();
         } else {

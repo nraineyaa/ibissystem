@@ -73,6 +73,7 @@ Route::controller(App\Http\Controllers\MaintenanceController::class)->group(func
     Route::get('/updateStatus/{id}', 'updateStatus')->name('updateStatus');
     Route::get('/file/{id}', 'getFile')->name('getFile');
     Route::get('/download/{id}', 'download')->name('download');
+    Route::get('/reportInfo/{id}', 'reportInfo')->name('reportInfo');
 });
 
 
@@ -97,6 +98,8 @@ Route::controller(App\Http\Controllers\InvoiceController::class)->group(function
     Route::get('/compForm', 'compForm')->name('compForm');
     Route::get('/companyList', 'companyList')->name('companyList');
     Route::post('/addCompany', 'addCompany')->name('addCompany');
+    Route::get('/pdf-paid/{id}', 'paidinvoice')->name('paidinvoice');
+    Route::get('/pdf/{id}', 'pdf')->name('pdf');
 });
 
 //====================================================== Attendance CONTROLLER ======================================================

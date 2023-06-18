@@ -103,7 +103,11 @@
                                 <td>{{ $data->issueDate }}</td>
                                 <td>{{ $data->dueDate }}</td>
                                 <td>{{ $data->compName }}</td>
+                                @if($data->status == 'Unpaid')
                                 <td style="width: 100px; color:red;">{{ $data->status }}</td>
+                                @else
+                                <td style="width: 100px; color:green;">{{ $data->status }}</td>
+                                @endif
                                 <td>{{ $data->remark }}</td>
                                 <td>
                                     <div class="btn-group" style="float: right;">

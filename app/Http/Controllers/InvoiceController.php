@@ -79,10 +79,22 @@ class InvoiceController extends Controller
 
 
 
-    public function addItemForm(Request $request)
+    public function pdf($id)
     {
 
-        return view('invoice.addItemForm');
+        // Retrieve the items associated with the invoice
+
+        $invoice = Invoice::findOrFail($id);
+
+        $items = Item::where('invID', $id)->get();
+
+
+        $companyData = Company::findOrFail($invoice->compID);
+
+        // Calculate the total amount
+        $totalAmount = $items->sum('amount');
+
+        return view('invoice.pdf', compact('invoice', 'items', 'companyData', 'totalAmount',));
     }
 
     public function companyList(Request $request)
@@ -158,10 +170,19 @@ class InvoiceController extends Controller
     {
         $prefix = 'INV';
         $currentYear = date('Y');
-        $counter = Invoice::whereYear('created_at', $currentYear)->count() + 1;
+        $lastInvoice = Invoice::whereYear('created_at', $currentYear)->latest('id')->first();
+
+        if ($lastInvoice) {
+            $lastCounter = intval(substr($lastInvoice->invoiceNumber, -3));
+            $counter = $lastCounter + 1;
+        } else {
+            $counter = 1;
+        }
+
         $formattedCounter = str_pad($counter, 3, '0', STR_PAD_LEFT);
         return $prefix . $currentYear . $formattedCounter;
     }
+
 
     // Generate a unique item ID
     function generateItemID()
@@ -231,5 +252,16 @@ class InvoiceController extends Controller
 
         // Pass the invoice and item data to the view
         return view('invoice.viewInvoice', compact('invoice', 'companyData', 'items', 'totalAmount'));
+    }
+
+    public function paidinvoice(Request $request, $id)
+    {
+        
+        Invoice::where('id', '=', $request->id)
+            ->update([
+                'status' => 'Paid',
+            ]);
+
+        return back()->with('success', 'Payment info is successfully updated!');
     }
 }

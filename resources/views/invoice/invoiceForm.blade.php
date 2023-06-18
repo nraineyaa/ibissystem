@@ -51,11 +51,25 @@
                         <div class="form-group col-md-6">
                             <label for="clientAdd">Bill To</label>
                             <textarea style="height: 115px;" class="form-control" id="address" name="address" readonly>
-                            {{$companyData->compName}}
-                            {{$companyData->address}}
-                            Phone Number : {{$companyData->compPhone}}
-                            Email: {{$companyData->compEmail}}
-                            </textarea>
+                                    <?php
+                                    $companyInfo = array(
+                                        'compName' => $companyData->compName,
+                                        'address' => $companyData->address,
+                                        'compPhone' => 'Phone Number : ' . $companyData->compPhone,
+                                        'compEmail' => 'Email: ' . $companyData->compEmail
+                                    );
+
+                                    $implodedInfo = '';
+
+                                    foreach ($companyInfo as $line) {
+                                        if (!empty($line)) {
+                                            $implodedInfo .= $line . "\n";
+                                        }
+                                    }
+
+                                    echo $implodedInfo;
+                                    ?>
+                                    </textarea>
                         </div>
                     </div>
 

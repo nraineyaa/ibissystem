@@ -36,18 +36,15 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="docs">Document</label>
-                            <div>
-                                <center>
-                                    <div>
-                                        <embed src="{{ asset('storage/' . $report->filePath) }}" type="application/pdf" width="100%" height="600px" />
-                                    </div>
-
-                                </center>
-                            </div>
+                            <input type="file" class="form-control" id="pdffile" name="document" accept="application/pdf" onchange="loadFile(this)" value="{{$report->filePath}}">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <iframe src="/{{$report->filePath}}" style="width: 455px; height: 405px; border-style: dashed"></iframe>
 
-
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label for="clientName">Remark</label>
@@ -65,6 +62,29 @@
     </div>
 </div>
 
+<script type="text/javascript" src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js'></script>
+<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(function() {
+        $("#pdffile").change(function() {
+            $("#dvPreview").html("");
+
+            $("#dvPreview").show();
+            $("#dvPreview").append("<iframe />");
+            $("iframe").css({
+                "height": "400px",
+                "width": "450px"
+            });
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $("#dvPreview iframe").attr("src", e.target.result);
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        });
+    });
+</script>
 <script>
     document.getElementById('downloadLink').addEventListener('click', function(e) {
         e.preventDefault();

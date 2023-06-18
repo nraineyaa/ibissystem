@@ -72,8 +72,11 @@
                     </div>
                     <div style="float: right;">
                         @if( auth()->user()->category == "Worker")
-                        <button type="submit" id="formNew" class="btn btn-primary">Accept</button>
                         <a href="{{ route('maintenance.page', $job->jobID ) }}" class="btn btn-danger btn-md">Cancel</a>
+                        @if($data->status == 'Accepted')
+                        <button type="submit" id="formNew" class="btn btn-primary" hidden>Accept</button>
+                        @else
+                        @endif
                         @else
                         <a href="{{ route('maintenance.page', $job->jobID ) }}" class="btn btn-dark btn-md">Back</a>
                         @endif

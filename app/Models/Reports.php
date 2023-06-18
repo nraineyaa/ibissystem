@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reports extends Model
 {
     use HasFactory;
+    protected $table = 'report'; //table to store activity data
     protected $fillable = [
         'reportTitle',
         'filePath',

@@ -18,7 +18,7 @@ class CreateReportTable extends Migration
             
             $table->string('reportTitle');
             $table->date('date');
-            $table->binary('file');
+            $table->binary('filePath');
             $table->string('remark');
             $table->string('status');
             $table->unsignedBigInteger('userID');
