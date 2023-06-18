@@ -199,7 +199,7 @@ document.getElementById("printBtn").addEventListener("click", function() {
   var win = window.open("", "_blank");
 
   // Write the card content to the new window
-  win.document.write("<html><head><title>Popup Window</title></head><body>" + cardContent + "</body></html>");
+  win.document.write("<html><head><title>Invoice IBIS</title></head><body>" + cardContent + "</body></html>");
 
   // Add CSS styles for A4 size
   win.document.write('<style>@page { size: A4; }</style>');
