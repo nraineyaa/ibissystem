@@ -14,7 +14,7 @@ $tooltipClients = '';
 <!-- Page Header -->
 <div class="page-header row no-gutters pb-4">
     <div class="col-12 col-sm-4 text-center text-sm-left mb-0 d-flex">
-        <h1 class="page-title ml-3">Accountant Overview</h1>
+        <h1 class="page-title ml-3">Human Resource Overview</h1>
     </div>
 </div>
 
