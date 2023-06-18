@@ -267,7 +267,7 @@
             const remainingDays = Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
 
             // Update the remainingTimeDiv with the result
-            remainingTimeDiv.textContent = `Remaining time: ${remainingDays} days`;
+            remainingTimeDiv.textContent = `Remaining Days: ${remainingDays} days`;
         }
     </script>
 
