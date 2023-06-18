@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
@@ -9,6 +10,7 @@ use App\Models\Jobs;
 use App\Models\Reports;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 
 class MaintenanceController extends Controller
@@ -60,7 +62,7 @@ class MaintenanceController extends Controller
         }
 
         $reportList = DB::table('report')
-        ->where('report.userID', '=', $currID)
+            ->where('report.userID', '=', $currID)
             ->select(
 
                 'id',
@@ -74,7 +76,7 @@ class MaintenanceController extends Controller
             )
             ->orderBy('reportTitle', 'asc')
             ->get();
-        
+
 
 
 
@@ -89,15 +91,19 @@ class MaintenanceController extends Controller
 
     public function jobForm(Request $request)
     {
+        $date = Carbon::today()->toDateString(); // Get the current date
+
         $workers = User::join('attendance', 'attendance.userID', '=', 'users.id')
             ->where('users.category', 'Worker')
             ->where('attendance.status', 'Available')
+            ->whereDate('attendance.date', $date) // Filter by the specific date
             ->groupBy('users.name') // Group by worker names
             ->pluck('users.name')
             ->all();
 
         return view('maintenance.jobForm', compact('workers'));
     }
+
 
     public function addJob(Request $request)
     {
@@ -111,6 +117,7 @@ class MaintenanceController extends Controller
         $remark = $request->input('remark');
         $workersName = $request->input('workersName');
         $userID = $currUser;
+
 
         $data = array(
 
@@ -126,7 +133,6 @@ class MaintenanceController extends Controller
 
         );
 
-
         DB::table('jobs')->insert($data);
 
         return back()->with('success', 'Job successfully added');
@@ -137,7 +143,7 @@ class MaintenanceController extends Controller
         $currUser = Auth::user()->id;
         $document = $request->file('document');
 
-        
+
         $filepath = time() . '.' . $document->getClientOriginalExtension();
         $request->document->move(public_path('uploads'),  $filepath);
 
@@ -350,6 +356,6 @@ class MaintenanceController extends Controller
                 'users.bankType',
             )->first();
 
-        return view('maintenance.reportInfo', compact('report', ));
+        return view('maintenance.reportInfo', compact('report',));
     }
 }

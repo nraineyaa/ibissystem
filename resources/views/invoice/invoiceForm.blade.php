@@ -141,7 +141,7 @@
                         </div>
                     </div>
                     <div style="float: right;">
-                        <a href="{{ url()->previous() }}" class="btn btn-danger btn-md">Cancel</a>
+                        <a href="{{ route('invoice.page')}}" class="btn btn-danger btn-md">Cancel</a>
                         <button type="submit" id="formNew" class="btn btn-primary">Submit</button>
                     </div>
                 </div>

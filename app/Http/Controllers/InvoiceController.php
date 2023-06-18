@@ -14,6 +14,15 @@ class InvoiceController extends Controller
     //display new user 
     public function index()
     { //
+
+        $paidCount = DB::table('invoices')
+            ->where('status', '=', "Paid")
+            ->count();
+
+        $unpaidCount = DB::table('invoices')
+            ->where('status', '=', "Unpaid")
+            ->count();
+
         $currUser = Auth::user()->id;
         $invoiceList = DB::table('invoices')
             ->join('company', 'invoices.compID', '=', 'company.id')
@@ -33,7 +42,7 @@ class InvoiceController extends Controller
             )
             ->orderBy('issueDate', 'asc')
             ->get();
-        return view('invoice.invoice', compact('invoiceList'));
+        return view('invoice.invoice', compact('invoiceList','paidCount','unpaidCount'));
     }
 
 
@@ -256,7 +265,7 @@ class InvoiceController extends Controller
 
     public function paidinvoice(Request $request, $id)
     {
-        
+
         Invoice::where('id', '=', $request->id)
             ->update([
                 'status' => 'Paid',

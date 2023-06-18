@@ -188,12 +188,12 @@
                     <div class="form-group col-md-12">
                         <div style="float: right;">
                             @if($invoice->status == 'Unpaid')
-                            <button type="button" id="cancel" class="btn btn-danger" href="{{ url()->previous() }}">Cancel</a></button>
+                            <a type="button" id="cancel" class="btn btn-danger" href="{{ route('invoice.page', $invoice->invoiceID ) }}">Cancel</a>
                             <button type="submit" id="formNew" class="btn btn-success">Paid</button>
-                            <a type="button" href="{{ route('pdf', $invoice->id )}}" class="btn btn-dark">Print</a>
+                            <a type="button" href="{{ route('pdf', $invoice->id )}}" class="btn btn-dark">View</a>
                             @else
-                            <button type="button" id="cancel" class="btn btn-danger" href="{{ url()->previous() }}">Back</a></button>
-                            <a type="button" href="{{ route('pdf', $invoice->id )}}" class="btn btn-dark">Print</a>
+                            <a type="button" id="cancel" class="btn btn-danger" href="{{ route('invoice.page', $invoice->invoiceID ) }}">Back</a>
+                            <a type="button" href="{{ route('pdf', $invoice->id )}}" class="btn btn-dark">View</a>
                             @endif
                         </div>
                     </div>

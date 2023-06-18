@@ -11,7 +11,7 @@
 <div class="row mb-4">
     <div class="col-12 col-xl-12 stretch-card mb-2">
         <div class="row flex-grow">
-            <div class="col-md-4 grid-margin stretch-card">
+            <div class="col-md-6 grid-margin stretch-card">
                 <div class="card" style="background:#0F8914;">
                     <div class="card-body">
                         <div class="row">
@@ -20,14 +20,14 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <h5 style="color:antiquewhite; font-weight: bold;">Paid</h5>
-                                <h4 style="color:antiquewhite;">3</h4>
+                                <h4 style="color:antiquewhite;">{{$paidCount}}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 grid-margin stretch-card mb-2">
-                <div class="card" style="background:#156DA2;">
+            <div class="col-md-6 grid-margin stretch-card mb-2">
+                <div class="card" style="background:#FF6262;">
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-4">
@@ -35,22 +35,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <h5 style="color:antiquewhite;  font-weight: bold;">Unpaid</h5>
-                                <h4 style="color:antiquewhite;">5</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 grid-margin stretch-card ">
-                <div class="card" style="background:#FF6262;">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <i class="material-icons" style="font-size:60px; color:antiquewhite">cancel</i>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <h5 style="color:antiquewhite; font-weight: bold;">Cancel</h5>
-                                <h4 style="color:antiquewhite;">3</h4>
+                                <h4 style="color:antiquewhite;">{{$unpaidCount}}</h4>
                             </div>
                         </div>
                     </div>

@@ -185,6 +185,7 @@
             </div>
             <div style="float: right;">
 
+            <a type="button" id="cancel" class="btn btn-danger" href="{{ url()->previous() }}">Back</a>
                 <button type="button" id="printBtn" class="btn btn-dark">Print</button>
             </div>
         </div>
