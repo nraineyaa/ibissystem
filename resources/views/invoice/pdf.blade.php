@@ -213,6 +213,10 @@
             var styleTag = styleTags[j].cloneNode(true);
             win.document.head.appendChild(styleTag);
         }
+
+        // Hide the print and back buttons in the new window
+        win.document.getElementById("printBtn").style.display = "none";
+        win.document.getElementById("cancel").style.display = "none";
     });
 </script>
 
