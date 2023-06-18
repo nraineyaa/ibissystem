@@ -48,21 +48,34 @@
     <div class="card mb-3">
         <br>
         <div class="card-header pb-2">
-            <div class="invoice-text">
-                <h2>INVOICE</h2>
-                <h4 id="invoiceNumber" style="color:blue;">#{{ $invoice->invoiceNumber }}</h4>
-            </div>
-
-            <div class="header-content">
-                <img id="main-logo" class="d-inline-block align-center mr-1" style="max-width: 100px;" src="{{ asset('frontend') }}/images/logoibis.png" alt="petakom logo">
-                <div class="address-text">
-                    <h3>IBI Services Sdn Bhd</h3>
-                    <p>B-2-1 Ampang Tudor Court,Taman Rasmi Jaya,Jalan Dedap</p>
-                    <p>68000 Ampang, Selangor.</p>
-                    <p>Email: ibishq@ibis.com.my Phone Number: 09-773696</p>
+    <div class="invoice-text">
+        <h2>INVOICE</h2>
+        <div>
+            <h4 id="invoiceNumber" style="color:blue;">#{{ $invoice->invoiceNumber }}</h4>
+            <div class="status-box" style="width:150px;">
+                <span>STATUS:</span>
+                <div class="status-value">
+                    @if($invoice->status == 'Unpaid')
+                    <h4 style="color:red;">{{ $invoice->status }}</h4>
+                    @else
+                    <h4 style="color:green;">{{ $invoice->status }}</h4>
+                    @endif
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="header-content">
+        <img id="main-logo" class="d-inline-block align-center mr-1" style="max-width: 100px;" src="{{ asset('frontend') }}/images/logoibis.png" alt="petakom logo">
+        <div class="address-text">
+            <h3>IBI Services Sdn Bhd</h3>
+            <p>B-2-1 Ampang Tudor Court,Taman Rasmi Jaya,Jalan Dedap</p>
+            <p>68000 Ampang, Selangor.</p>
+            <p>Email: ibishq@ibis.com.my Phone Number: 09-773696</p>
+        </div>
+    </div>
+</div>
+
         <hr>
         <div class="card-body">
             <div class="row">
@@ -87,18 +100,7 @@
                                 <span readonly>{!! $implodedInfo !!}</span>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="status-box" style="width:150px; float: right;">
-                                <span id="invoiceNumber">STATUS :</span>
-                                <div class="status-value">
-                                    @if($invoice->status == 'Unpaid')
-                                    <h4 style="color:red;">{{ $invoice->status }}</h4>
-                                    @else
-                                    <h4 style="color:green;">{{ $invoice->status }}</h4>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                     <input type="hidden" name="compID" value="{{ $companyData->id }}">
 
@@ -193,17 +195,17 @@
 </div>
 <script>
     document.getElementById("printBtn").addEventListener("click", function() {
-        var cardContent = document.querySelector(".card.mb-3").outerHTML; // Get the outer HTML of the card mb-3 element
+        var cardContent = document.querySelector(".card.mb-3").outerHTML;
 
-        var screenWidth = window.screen.availWidth; // Get the available screen width
-        var screenHeight = window.screen.availHeight; // Get the available screen height
+        // Open a new window
+        var win = window.open("", "_blank", "width=800,height=600");
 
-        var win = window.open("", "_blank", "width=" + screenWidth + ",height=" + screenHeight); // Open a new window with the screen dimensions
-        win.document.write("<html><head><title>Popup Window</title>");
-        win.document.write("<style>body { margin: 0; background-color: white; }</style>"); // Set body margin to 0 and background color to white
-        win.document.write("</head><body>");
-        win.document.write(cardContent); // Write the card content to the new window
-        win.document.write("</body></html>");
+        // Write the card content to the new window
+        win.document.write("<html><head><title>Popup Window</title></head><body>" + cardContent + "</body></html>");
+
+        // Add CSS styles for A4 size
+        win.document.write('<style>@page { size: A4; }</style>');
+        win.document.write('<style>body { margin: 0; }</style>');
 
         // Add CSS styles
         var linkTags = document.getElementsByTagName("link");
@@ -222,9 +224,10 @@
         // Hide buttons in the new window
         win.document.getElementById("cancel").style.display = "none";
         win.document.getElementById("printBtn").style.display = "none";
+
+        // Print the window content
+        win.print();
     });
 </script>
-
-
 
 @endsection
