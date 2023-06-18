@@ -185,7 +185,7 @@
             </div>
             <div style="float: right;">
 
-            <a type="button" id="cancel" class="btn btn-danger" href="{{ url()->previous() }}">Back</a>
+                <a type="button" id="cancel" class="btn btn-danger" href="{{ url()->previous() }}">Back</a>
                 <button type="button" id="printBtn" class="btn btn-dark">Print</button>
             </div>
         </div>
@@ -197,8 +197,11 @@
     document.getElementById("printBtn").addEventListener("click", function() {
         var cardContent = document.querySelector(".card.mb-3").outerHTML; // Get the outer HTML of the card mb-3 element
 
-        var win = window.open("", "_blank", "width=800,height=600"); // Open a new window
-        win.document.write("<html><head><title>Popup Window</title></head><body>" + cardContent + "</body></html>"); // Write the card content to the new window
+        var win = window.open("", "_blank", "width=" + screen.availWidth + ",height=" + screen.availHeight); // Open a new window with full screen dimensions
+        win.document.write("<html><head><title>Popup Window</title></head><body style='margin: 0;'>");
+        win.document.write("<div style='width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center;'>");
+        win.document.write(cardContent); // Write the card content to the new window
+        win.document.write("</div></body></html>");
 
         // Add CSS styles
         var linkTags = document.getElementsByTagName("link");
