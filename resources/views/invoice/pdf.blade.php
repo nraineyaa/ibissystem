@@ -192,16 +192,16 @@
     </div>
 </div>
 
-
 <script>
     document.getElementById("printBtn").addEventListener("click", function() {
         var cardContent = document.querySelector(".card.mb-3").outerHTML; // Get the outer HTML of the card mb-3 element
 
-        var win = window.open("", "_blank", "width=" + screen.availWidth + ",height=" + screen.availHeight); // Open a new window with full screen dimensions
-        win.document.write("<html><head><title>Popup Window</title></head><body style='margin: 0;'>");
-        win.document.write("<div style='width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center;'>");
+        var win = window.open("", "_blank", "width=800,height=600"); // Open a new window with specified dimensions
+        win.document.write("<html><head><title>Popup Window</title>");
+        win.document.write("<style>body { margin: 0; }</style>"); // Set body margin to 0 to remove unnecessary white space
+        win.document.write("</head><body>");
         win.document.write(cardContent); // Write the card content to the new window
-        win.document.write("</div></body></html>");
+        win.document.write("</body></html>");
 
         // Add CSS styles
         var linkTags = document.getElementsByTagName("link");
@@ -216,10 +216,6 @@
             var styleTag = styleTags[j].cloneNode(true);
             win.document.head.appendChild(styleTag);
         }
-
-        // Hide the print and back buttons in the new window
-        win.document.getElementById("printBtn").style.display = "none";
-        win.document.getElementById("cancel").style.display = "none";
     });
 </script>
 
